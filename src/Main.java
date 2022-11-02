@@ -45,8 +45,9 @@ public class Main {
 //        board1.printBoard();
 
 //        Board.board[5][7].move(5, 7, 1, 3);
-        Board.board[3][3] = new Rook("white", 3,3);
-        Board.board[3][3].move(3,3,2,4);
+        Board.board[3][3] = new Bishop("white", 3,3);
+        Board.board[3][1] = new Pawn("white",3,1,false);
+        Board.board[3][3].move(3,3,1,5);
         board1.printBoard();
 
     }
