@@ -1,9 +1,17 @@
-public abstract class Piece implements Move{
+public abstract class Piece {
     private String color;
     private int x, y;
     public abstract boolean isPossibleMove(int startX, int startY, int moveToX, int moveToY);
     public abstract String toString();
-    public abstract void move(int startX, int startY, int x, int y);
+    public void move(int startX, int startY, int x, int y){
+        boolean isPossibleMove = isPossibleMove(startX, startY, x, y);
+        if (isPossibleMove) {
+            Board.board[x][y] = Board.board[startX][startY];
+            Board.board[startX][startY] = null;
+        } else {
+            System.out.println("Not possible move!");
+        }
+    }
 
     public Piece(String color, int x, int y) {
         this.color = color;
@@ -35,13 +43,4 @@ public abstract class Piece implements Move{
         this.y = y;
     }
 
-    @Override
-    public void move() {
-
-    }
-
-    @Override
-    public boolean isPossibleMove() {
-        return false;
-    }
 }
