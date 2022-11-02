@@ -6,7 +6,7 @@ public class Main {
 //        Menu.menu();
         Board board1 = new Board();
         board1.initializeStartingBoard();
-        board1.printBoard();
+//        board1.printBoard();
 //        board1.printBoard();
 //        System.out.println("Enter what you want to move ");
 //        System.out.println("Enter the row ");
@@ -44,7 +44,10 @@ public class Main {
 //        Board.board[4][0].move(4, 0, 2, 0);
 //        board1.printBoard();
 
-        Board.board[5][7].move(5, 7, 1, 3);
+//        Board.board[5][7].move(5, 7, 1, 3);
+        Board.board[3][3] = new Rook("white", 3,3);
+        Board.board[3][3].move(3,3,2,4);
         board1.printBoard();
+
     }
 }
