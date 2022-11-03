@@ -19,13 +19,7 @@ public class Knight extends Piece{
 
     @Override
     public void move(int startX, int startY, int moveToX, int moveToY) {
-        boolean isPossibleMove = isPossibleMove(startX, startY, moveToX, moveToY);
-        if(isPossibleMove){
-            Board.board[moveToX][moveToY] = Board.board[startX][startY];
-            Board.board[startX][startY] = null;
-        } else{
-            System.out.println("Not possible move!");
-        }
+        super.move(startX,startY,moveToX,moveToY);
     }
     @Override
     public String toString() {
