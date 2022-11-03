@@ -53,7 +53,6 @@ public class Queen extends Piece {
             }
         }
     }
-
     private boolean checkHorizontalDirections(int startX, int startY, int moveToX, int moveToY) {
         if (moveToY < startY) {
             return DirectionY.checkWest(startX, startY, moveToX, moveToY);
@@ -64,76 +63,6 @@ public class Queen extends Piece {
             return false;
         }
     }
-
-
-    public boolean checkNorthwest(int startX, int startY, int moveToX, int moveToY) {
-        if (startX > 0 && startY > 0) {
-            if (Board.board[moveToX][moveToY] == null || !(Board.board[startX][startY].getColor().equals(Board.board[moveToX][moveToY].getColor()))) {
-                for (int i = 1; i < (startX - moveToX); i++) {
-                    if (Board.board[startX - i][startY - i] != null) {
-                        return false;
-                    }
-                }
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    public boolean checkNortheast(int startX, int startY, int moveToX, int moveToY) {
-        if (startX > 0 && startY < 7) {
-            if (Board.board[moveToX][moveToY] == null || !(Board.board[startX][startY].getColor().equals(Board.board[moveToX][moveToY].getColor()))) {
-                for (int i = 1; i < (startX - moveToX); i++) {
-                    if (Board.board[startX - i][startY + i] != null) {
-                        return false;
-                    }
-                }
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    public boolean checkSoutheast(int startX, int startY, int moveToX, int moveToY) {
-        if (startX < 7 && startY < 7) {
-            if (Board.board[moveToX][moveToY] == null || !(Board.board[startX][startY].getColor().equals(Board.board[moveToX][moveToY].getColor()))) {
-                for (int i = 1; i < (moveToX - startX); i++) {
-                    if (Board.board[startX + i][startY + i] != null) {
-                        return false;
-                    }
-                }
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    public boolean checkSouthwest(int startX, int startY, int moveToX, int moveToY) {
-        if (startX < 7 && startY > 0) {
-            if (Board.board[moveToX][moveToY] == null || !(Board.board[startX][startY].getColor().equals(Board.board[moveToX][moveToY].getColor()))) {
-                for (int i = 1; i < (moveToX - startX); i++) {
-                    if (Board.board[startX + i][startY - i] != null) {
-                        return false;
-                    }
-                }
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
     @Override
     public void move(int startX, int startY, int x, int y) {
         super.move(startX,startY,x,y);
