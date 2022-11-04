@@ -1,3 +1,9 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.Callable;
+
 public class Pawn extends Piece {
     private boolean isFirstMove;
 
@@ -143,6 +149,42 @@ public class Pawn extends Piece {
         }
     }
 
+    public void changePawn(int startX, int startY) {
+            Piece piece = askUserToChange(startX,startY);
+            Board.board[startX][startY] = piece;
+    }
+    private boolean checkEndRows(int x){
+       return (x == 0 || x == 7);
+    }
+
+    private Piece askUserToChange(int x, int y) {
+        int timesError = 0;
+        String[] possiblePieces= {"R", "K", "B", "Q"};
+        List<String> possiblePieceList = new ArrayList<>(Arrays.asList(possiblePieces));
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Enter a piece to change into (R-K-B-Q): ");
+        String pieceChoice=" ";
+        while(true) {
+            if (timesError >= 3) {
+                System.out.println("Too many invalid inputs! Queen chosen/default option/!");
+                break;
+            }
+            pieceChoice = scan.next();
+            if(possiblePieceList.contains(pieceChoice)){
+                break;
+            }
+            timesError++;
+            System.out.print("Invalid input! Please enter again (R-K-B-Q): ");
+        }
+        return switch (pieceChoice) {
+            case "R" -> new Rook(this.getColor(), x, y);
+            case "K" -> new Knight(this.getColor(), x, y);
+            case "B" -> new Bishop(this.getColor(), x, y);
+            default -> new Queen(this.getColor(), x, y);
+        };
+    }
+
+
     @Override
     public String toString() {
         if (super.getColor().equals("white")) {
@@ -154,6 +196,10 @@ public class Pawn extends Piece {
 
     @Override
     public void move(int startX, int startY, int x, int y) {
-        super.move(startX,startY,x,y);
+        super.move(startX, startY, x, y, () -> {
+            if(checkEndRows(x)){
+                changePawn(x,y);
+            }
+        });
     }
 }

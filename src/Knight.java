@@ -10,6 +10,7 @@ public class Knight extends Piece{
                     || ((startX - 2 == moveToX) && (moveToY - 1 == moveToY)) || ((startX - 1 == moveToX) && (startY - 2 == moveToY)) || ((startX + 1 == moveToX) && (startY - 2 == moveToY)) || ((startX + 2 == moveToX) && (startY - 1 == moveToY))) {
                 return true;
             } else{
+
                 return false;
             }
         } else{
