@@ -154,12 +154,6 @@ public class Pawn extends Piece {
 
     @Override
     public void move(int startX, int startY, int x, int y) {
-        boolean isPossibleMove = isPossibleMove(startX, startY, x, y);
-        if (isPossibleMove) {
-            Board.board[x][y] = Board.board[startX][startY];
-            Board.board[startX][startY] = null;
-        } else {
-            System.out.println("Not possible move!");
-        }
+        super.move(startX,startY,x,y);
     }
 }
