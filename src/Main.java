@@ -6,7 +6,7 @@ public class Main {
 //        Menu.menu();
         Board board1 = new Board();
         board1.initializeStartingBoard();
-//        board1.printBoard();
+        board1.printBoard();
 //        board1.printBoard();
 //        System.out.println("Enter what you want to move ");
 //        System.out.println("Enter the row ");
@@ -45,10 +45,17 @@ public class Main {
 //        board1.printBoard();
 
 //        Board.board[5][7].move(5, 7, 1, 3);
-        Board.board[3][3] = new Bishop("white", 3,3);
-        Board.board[3][1] = new Pawn("white",3,1,false);
-        Board.board[3][3].move(3,3,1,5);
+//        Board.board[3][3] = new Bishop("white", 3,3);
+//        Board.board[3][1] = new Pawn("white",3,1,false);
+//        Board.board[3][3].move(3,3,1,5);
+//        board1.printBoard();
+//        Board.board[7][3] = new Knight("black", 5 , 0);
+//        Board.board[4][2] = new Queen("white",4, 2);
+//        Board.board[3][2] = new Knight("black", 3 ,2);
+//        Board.board[4][2].move(4,2,3,2);
+//        Board.board[3][2].move(3,2,2,2);
+        Board.board[1][0] = new Pawn("white", 1, 0, true);
+        Board.board[1][0].move(1,0,0,0);
         board1.printBoard();
-
     }
 }
