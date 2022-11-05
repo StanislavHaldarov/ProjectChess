@@ -60,9 +60,12 @@ public class Main {
 //        Board.board[1][0].move(1,0,0,0);
 //        Board.board[5][6] = new King("white", 5 ,6);
 //        Board.board[5][6].move(5,6,6,7);
+//        Board.board[3][4] = new Pawn("black", 3, 4, false, 1);
+//        Board.board[3][3] = new Pawn("white", 3, 3, false, 1);
+//        Board.board[3][3].move(3, 3, 2, 4);
         Board.board[3][4] = new Pawn("black", 3, 4, false, 1);
-        Board.board[3][3] = new Pawn("white", 3, 3, false, 1);
-        Board.board[3][3].move(3, 3, 2, 4);
+        Board.board[3][3] = new King("white", 3, 3);
+        Board.board[3][3].move(3,3,5,5);
         board1.printBoard();
     }
 }
