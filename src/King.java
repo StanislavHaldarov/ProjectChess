@@ -6,15 +6,15 @@ public class King extends Piece{
     @Override
     public boolean isPossibleMove(int startX, int startY, int moveToX, int moveToY) {
         boolean result = false;
-        if(startX-1 == moveToX){
-            checkNorth(startX,startY,moveToX,moveToY);
-            result=true;
-        } else if(startX+1 == moveToX){
-            checkSouth(startX,startY,moveToX,moveToY);
-        }
+
         return result;
     }
-    private boolean checkNorth(int startX, int startY, int moveToX, int moveToY){
+//    private boolean checkIfValidPosition(int startX, int startY, int moveToX, int moveToY){
+//        if(moveToX-1==startX || moveToX+1==startX){
+//
+//        }
+//    }
+    private boolean checkNorthKing(int startX, int startY, int moveToX, int moveToY){
         boolean result = false;
         if (startX > 0) {
             if (Board.board[moveToX][moveToY] == null || !(Board.board[startX][startY].getColor().equals(Board.board[moveToX][moveToY].getColor()))) {
@@ -23,9 +23,30 @@ public class King extends Piece{
         }
         return result;
     }
-    private boolean checkSouth(int startX, int startY, int moveToX, int moveToY){
+//    private boolean checkNortheastKing(int startX, int startY, int moveToX, int moveToY){
+//
+//    }
+    private boolean checkSouthKing(int startX, int startY, int moveToX, int moveToY){
         boolean result = false;
         if (startX < 7) {
+            if (Board.board[moveToX][moveToY] == null || !(Board.board[startX][startY].getColor().equals(Board.board[moveToX][moveToY].getColor()))) {
+                result = true;
+            }
+        }
+        return result;
+    }
+    private boolean checkEastKing(int startX, int startY, int moveToX, int moveToY){
+        boolean result = false;
+        if (startY < 7) {
+            if (Board.board[moveToX][moveToY] == null || !(Board.board[startX][startY].getColor().equals(Board.board[moveToX][moveToY].getColor()))) {
+                result = true;
+            }
+        }
+        return result;
+    }
+    private boolean checkWestKing(int startX, int startY, int moveToX, int moveToY){
+        boolean result = false;
+        if (startY > 0) {
             if (Board.board[moveToX][moveToY] == null || !(Board.board[startX][startY].getColor().equals(Board.board[moveToX][moveToY].getColor()))) {
                 result = true;
             }
