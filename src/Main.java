@@ -54,8 +54,15 @@ public class Main {
 //        Board.board[3][2] = new Knight("black", 3 ,2);
 //        Board.board[4][2].move(4,2,3,2);
 //        Board.board[3][2].move(3,2,2,2);
-        Board.board[1][0] = new Pawn("white", 1, 0, true);
-        Board.board[1][0].move(1,0,0,0);
+
+        //pawn end row check test
+//        Board.board[1][0] = new Pawn("white", 1, 0, true);
+//        Board.board[1][0].move(1,0,0,0);
+//        Board.board[5][6] = new King("white", 5 ,6);
+//        Board.board[5][6].move(5,6,6,7);
+        Board.board[3][4] = new Pawn("black", 3, 4, false, 1);
+        Board.board[3][3] = new Pawn("white", 3, 3, false, 1);
+        Board.board[3][3].move(3, 3, 2, 4);
         board1.printBoard();
     }
 }

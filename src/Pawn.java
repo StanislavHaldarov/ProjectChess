@@ -2,10 +2,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.Callable;
 
 public class Pawn extends Piece {
     private boolean isFirstMove;
+    private int movesCount;
+
+    public int getMovesCount() {
+        return movesCount;
+    }
+
+    public void setMovesCount(int movesCount) {
+        this.movesCount = movesCount;
+    }
 
     public boolean isFirstMove() {
         return isFirstMove;
@@ -15,23 +23,28 @@ public class Pawn extends Piece {
         isFirstMove = firstMove;
     }
 
-    public Pawn(String color, int startX, int startY, boolean isFirstMove) {
+    public Pawn(String color, int startX, int startY, boolean isFirstMove, int movesCount) {
         super(color, startX, startY);
-        this.isFirstMove = true;
+        this.isFirstMove = isFirstMove;
+        this.movesCount = movesCount;
     }
 
     @Override
     public boolean isPossibleMove(int startX, int startY, int moveToX, int moveToY) {
         boolean result;
         if (getColor().equalsIgnoreCase("white")) {
-            if ((moveToX == startX - 1 && moveToY == startY - 1) || (moveToX == startX - 1 && moveToY == startY + 1)) {
-                result = checkWhiteDiagonals(startX, startY, moveToX, moveToY);
+            if (moveToX == startX - 1 && moveToY == startY - 1) {
+                result = checkWhiteWestDiagonal(startX, startY, moveToX, moveToY);
+            } else if (moveToX == startX - 1 && moveToY == startY + 1) {
+                result = checkWhiteEastDiagonal(startX, startY, moveToX, moveToY);
             } else {
                 result = checkWhiteIfFirstMove(startX, startY, moveToX, moveToY);
             }
         } else {
-            if ((moveToX == startX + 1 && moveToY == startY - 1) || (moveToX == startX + 1 && moveToY == startY + 1)) {
-                result = checkBlackDiagonals(startX, startY, moveToX, moveToY);
+            if (moveToX == startX + 1 && moveToY == startY - 1) {
+                result = checkBlackWestDiagonal(startX, startY, moveToX, moveToY);
+            } else if (moveToX == startX + 1 && moveToY == startY + 1) {
+                result = checkBlackEastDiagonal(startX, startY, moveToX, moveToY);
             } else {
                 result = checkBlackIfFirstMove(startX, startY, moveToX, moveToY);
             }
@@ -39,40 +52,52 @@ public class Pawn extends Piece {
         return result;
     }
 
-    private boolean checkBlackIfFirstMove(int startX, int startY, int moveToX, int moveToY) {
-        if (isFirstMove()) {
-            if (moveToX == (startX + 1)) {
-                if (Board.board[startX + 1][startY] != null) {
-                    return false;
-                } else {
-                    setFirstMove(false);
-                    return true;
-                }
-            } else if (moveToX == (startX + 2)) {
-                if (Board.board[startX + 2][startY] != null || Board.board[startX - 1][startY] != null) {
-                    return false;
-                } else {
-                    setFirstMove(false);
-                    return true;
-                }
-            } else {
+    private boolean checkBlackFront(int startX, int startY, int moveToX, int moveToY) {
+        if (moveToX == (startX + 1)) {
+            if (Board.board[startX + 1][startY] != null) {
                 return false;
+            } else {
+                setFirstMove(false);
+                return true;
             }
         } else {
             return false;
         }
     }
 
-    private boolean checkWhiteIfFirstMove(int startX, int startY, int moveToX, int moveToY) {
+    private boolean checkWhiteFront(int startX, int startY, int moveToX, int moveToY) {
+        if (moveToX == (startX - 1)) {
+            if (Board.board[startX - 1][startY] != null) {
+                return false;
+            } else {
+                setFirstMove(false);
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private boolean checkBlackIfFirstMove(int startX, int startY, int moveToX, int moveToY) {
         if (isFirstMove()) {
-            if (moveToX == (startX - 1)) {
-                if (Board.board[startX - 1][startY] != null) {
+            if (moveToX == (startX + 2)) {
+                if (Board.board[startX + 2][startY] != null || Board.board[startX + 1][startY] != null) {
                     return false;
                 } else {
                     setFirstMove(false);
                     return true;
                 }
-            } else if (moveToX == (startX - 2)) {
+            } else {
+                return checkBlackFront(startX, startY, moveToX, moveToY);
+            }
+        } else {
+            return checkBlackFront(startX, startY, moveToX, moveToY);
+        }
+    }
+
+    private boolean checkWhiteIfFirstMove(int startX, int startY, int moveToX, int moveToY) {
+        if (isFirstMove()) {
+            if (moveToX == (startX - 2)) {
                 if (Board.board[startX - 2][startY] != null || Board.board[startX - 1][startY] != null) {
                     return false;
                 } else {
@@ -80,97 +105,106 @@ public class Pawn extends Piece {
                     return true;
                 }
             } else {
-                return false;
+                return checkWhiteFront(startX, startY, moveToX, moveToY);
             }
         } else {
-            return false;
+            return checkWhiteFront(startX, startY, moveToX, moveToY);
         }
     }
 
-    private boolean checkBlackDiagonals(int startX, int startY, int moveToX, int moveToY) {
+
+    private boolean checkWhiteWestDiagonal(int startX, int startY, int moveToX, int moveToY) {
         setFirstMove(false);
-        if (startY == 0 || startY == 7) {
-            if (startY == 0) {
-                if (Board.board[startX + 1][startY + 1] != null) {
-                    if (!(Board.board[startX + 1][startY + 1].getColor().equalsIgnoreCase("black"))) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+        if (startY != 0) {
+            if (Board.board[startX - 1][startY - 1] != null) {
+                return !(Board.board[startX - 1][startY - 1].getColor().equalsIgnoreCase("white"));
+            } else if (Board.board[startX][startY - 1] instanceof Pawn) {
+                if (Board.board[startX][startY - 1].getColor().equalsIgnoreCase("black")) {
+                    Board.board[startX][startY - 1] = null;
+                    return true;
                 } else {
                     return false;
                 }
-            } else {
-                if (Board.board[startX + 1][startY - 1] != null) {
-                    if (!(Board.board[startX + 1][startY - 1].getColor().equalsIgnoreCase("black"))) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-            }
-        } else {
-            if (Board.board[startX + 1][startY + 1] != null || Board.board[startX + 1][startY - 1] != null) {
-                return true;
-            } else {
-                return false;
             }
         }
+        return false;
     }
 
-    private boolean checkWhiteDiagonals(int startX, int startY, int moveToX, int moveToY) {
+    private boolean checkWhiteEastDiagonal(int startX, int startY, int moveToX, int moveToY) {
         setFirstMove(false);
-        if (startY == 0 || startY == 7) {
-            if (startY == 0) {
-                if (Board.board[startX - 1][startY + 1] != null) {
-                    if (!(Board.board[startX - 1][startY + 1].getColor().equalsIgnoreCase("white"))) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-            } else {
-                if (Board.board[startX - 1][startY - 1] != null) {
-                    if (!(Board.board[startX - 1][startY - 1].getColor().equalsIgnoreCase("white"))) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+        if (startY != 7) {
+            if (Board.board[startX - 1][startY + 1] != null) {
+                return !(Board.board[startX - 1][startY + 1].getColor().equalsIgnoreCase("white"));
+            } else if (Board.board[startX][startY + 1] instanceof Pawn) {
+                if (Board.board[startX][startY + 1].getColor().equalsIgnoreCase("black")) {
+                    Board.board[startX][startY + 1] = null;
+                    return true;
                 } else {
                     return false;
                 }
             }
-        } else {
-            return false;
         }
+        return false;
+    }
+
+    private boolean checkBlackWestDiagonal(int startX, int startY, int moveToX, int moveToY) {
+        setFirstMove(false);
+        if (startY != 0) {
+            if (Board.board[startX + 1][startY - 1] != null) {
+                return !(Board.board[startX + 1][startY - 1].getColor().equalsIgnoreCase("black"));
+            } else if (Board.board[startX][startY - 1] instanceof Pawn) {
+                if (Board.board[startX][startY - 1].getColor().equalsIgnoreCase("white")) {
+                    Board.board[startX][startY - 1] = null;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    private boolean checkBlackEastDiagonal(int startX, int startY, int moveToX, int moveToY) {
+        setFirstMove(false);
+        if (startY != 7) {
+            if (Board.board[startX + 1][startY + 1] != null) {
+                return !(Board.board[startX + 1][startY + 1].getColor().equalsIgnoreCase("black"));
+            } else if (Board.board[startX][startY + 1] instanceof Pawn) {
+                if (Board.board[startX][startY + 1].getColor().equalsIgnoreCase("white")) {
+                    Board.board[startX][startY + 1] = null;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     public void changePawn(int startX, int startY) {
-            Piece piece = askUserToChange(startX,startY);
-            Board.board[startX][startY] = piece;
+        Piece piece = askUserToChange(startX, startY);
+        Board.board[startX][startY] = piece;
     }
-    private boolean checkEndRows(int x){
-       return (x == 0 || x == 7);
+
+    private boolean checkEndRows(int x) {
+        return (x == 0 || x == 7);
     }
 
     private Piece askUserToChange(int x, int y) {
         int timesError = 0;
-        String[] possiblePieces= {"R", "K", "B", "Q"};
+        String[] possiblePieces = {"R", "K", "B", "Q"};
         List<String> possiblePieceList = new ArrayList<>(Arrays.asList(possiblePieces));
         Scanner scan = new Scanner(System.in);
         System.out.print("Enter a piece to change into (R-K-B-Q): ");
-        String pieceChoice=" ";
-        while(true) {
+        String pieceChoice = " ";
+        while (true) {
             if (timesError >= 3) {
                 System.out.println("Too many invalid inputs! Queen chosen/default option/!");
                 break;
             }
             pieceChoice = scan.next();
-            if(possiblePieceList.contains(pieceChoice)){
+            if (possiblePieceList.contains(pieceChoice)) {
                 break;
             }
             timesError++;
@@ -184,7 +218,6 @@ public class Pawn extends Piece {
         };
     }
 
-
     @Override
     public String toString() {
         if (super.getColor().equals("white")) {
@@ -196,9 +229,10 @@ public class Pawn extends Piece {
 
     @Override
     public void move(int startX, int startY, int x, int y) {
+        setMovesCount(movesCount + 1);
         super.move(startX, startY, x, y, () -> {
-            if(checkEndRows(x)){
-                changePawn(x,y);
+            if (checkEndRows(x)) {
+                changePawn(x, y);
             }
         });
     }
