@@ -1,9 +1,12 @@
-public class King extends Piece {
+import java.util.ArrayList;
+import java.util.List;
+
+public class King extends Piece{
 
     public King(String color, int x, int y) {
+
         super(color, x, y);
     }
-
     @Override
     public boolean isPossibleMove(int startX, int startY, int moveToX, int moveToY) {
         boolean result;
@@ -19,6 +22,14 @@ public class King extends Piece {
         else{
             result = false;
         }
+        if(this.isInCheck(moveToX,moveToY)){
+            if(this.isInCheckmate(moveToX, moveToY)){
+                return false;
+//                System.out.println("GAME OVER! "+this.getColor() + " LOST");
+//                System.exit(0);
+            }
+        }
+        result = result && !(this.isInCheck(moveToX, moveToY));
         return result;
     }
     private boolean checkNorthDirectionsKing(int startX, int startY, int moveToX, int moveToY) {
@@ -127,8 +138,35 @@ public class King extends Piece {
         }
         return result;
     }
-
-
+    public boolean isInCheck(int moveToX, int moveToY){
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++) {
+                if (Board.board[i][j] != null && !(Board.board[i][j] instanceof King) ) {
+                    if (Board.board[i][j].isPossibleMove(i, j, moveToX, moveToY) && !(Board.board[i][j].getColor().equals(this.getColor()))) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    public boolean isInCheckmate(int moveToX, int moveToY){
+        int moveToX1 = moveToX + 1;
+        int moveToX2 = moveToX - 1;
+        boolean result = false;
+        if(this.isInCheck(moveToX,moveToY)) {
+            if (!this.isPossibleMove(getX(), getY(), moveToX1, moveToY)) {
+                result = true;
+            } else if (!this.isPossibleMove(getX(), getY(), moveToX2, moveToY)) {
+                result = true;
+            } else if (!this.isPossibleMove(getX(), getY(), moveToX, (moveToY - 1))) {
+                result = true;
+            } else if (!this.isPossibleMove(getX(), getY(), moveToX, (moveToY + 1))) {
+                result = true;
+            }
+        }
+        return result;
+    }
     @Override
     public String toString() {
         if (super.getColor().equals("white")) {
