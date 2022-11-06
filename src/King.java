@@ -1,16 +1,26 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class King extends Piece{
+public class King extends Piece {
+    private boolean isFirstMove;
 
-    public King(String color, int x, int y) {
-
-        super(color, x, y);
+    public boolean isFirstMove() {
+        return isFirstMove;
     }
+
+    public void setFirstMove(boolean firstMove) {
+        isFirstMove = firstMove;
+    }
+
+    public King(String color, int x, int y, boolean isFirstMove) {
+        super(color, x, y);
+        this.isFirstMove = isFirstMove;
+    }
+
     @Override
     public boolean isPossibleMove(int startX, int startY, int moveToX, int moveToY) {
         boolean result;
-        if((moveToX == startX - 1 || moveToX == startX || moveToX == startX + 1) && (moveToY == startY - 1 || moveToY == startY || moveToY == startY + 1)) {
+        if ((moveToX == startX - 1 || moveToX == startX || moveToX == startX + 1) && (moveToY == startY - 1 || moveToY == startY || moveToY == startY + 1)) {
             if (moveToX < startX) {
                 result = checkNorthDirectionsKing(startX, startY, moveToX, moveToY);
             } else if (moveToX > startX) {
@@ -18,12 +28,14 @@ public class King extends Piece{
             } else {
                 result = checkHorizontalDirectionsKing(startX, startY, moveToX, moveToY);
             }
-        }
-        else{
+        } else if ((moveToY == startY + 2 || moveToY == startY - 2) && isFirstMove()) {
+            result = checkKingCastling(startX, startY, moveToX, moveToY);
+
+        } else {
             result = false;
         }
-        if(this.isInCheck(moveToX,moveToY)){
-            if(this.isInCheckmate(moveToX, moveToY)){
+        if (this.isInCheck(moveToX, moveToY)) {
+            if (this.isInCheckmate(moveToX, moveToY)) {
                 return false;
 //                System.out.println("GAME OVER! "+this.getColor() + " LOST");
 //                System.exit(0);
@@ -32,6 +44,51 @@ public class King extends Piece{
         result = result && !(this.isInCheck(moveToX, moveToY));
         return result;
     }
+
+    private boolean checkKingCastling(int startX, int startY, int moveToX, int moveToY) {
+        if (moveToY == startY + 2) {
+            if (Board.board[startX][startY + 1] == null && Board.board[startX][startY + 2] == null) {
+                return checkShortCastling(startX, startY, moveToX, moveToY);
+            } else {
+                return false;
+            }
+        } else {
+            if (Board.board[startX][startY - 1] == null && Board.board[startX][startY - 2] == null && Board.board[startX][startY - 3] == null) {
+                return checkLongCastling(startX, startY, moveToX, moveToY);
+            } else {
+                return false;
+            }
+        }
+    }
+
+    private boolean checkShortCastling(int startX, int startY, int moveToX, int moveToY) {
+        if (Board.board[startX][startY + 3] instanceof Rook) {
+            if (((Rook) Board.board[startX][startY + 3]).isFirstMove()) {
+                Board.board[startX][startY+1] = new Rook(getColor(),startX,startY+1,false);
+                Board.board[startX][startY + 3] = null;
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private boolean checkLongCastling(int startX, int startY, int moveToX, int moveToY) {
+        if (Board.board[startX][startY - 4] instanceof Rook) {
+            if (((Rook) Board.board[startX][startY - 4]).isFirstMove()) {
+                Board.board[startX][startY-1] = new Rook(getColor(),startX,startY-1,false);
+                Board.board[startX][startY - 4] = null;
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     private boolean checkNorthDirectionsKing(int startX, int startY, int moveToX, int moveToY) {
         boolean result;
         if (moveToY < startY) {
@@ -138,10 +195,11 @@ public class King extends Piece{
         }
         return result;
     }
-    public boolean isInCheck(int moveToX, int moveToY){
-        for(int i=0; i<8; i++){
-            for(int j=0; j<8; j++) {
-                if (Board.board[i][j] != null && !(Board.board[i][j] instanceof King) ) {
+
+    public boolean isInCheck(int moveToX, int moveToY) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (Board.board[i][j] != null && !(Board.board[i][j] instanceof King)) {
                     if (Board.board[i][j].isPossibleMove(i, j, moveToX, moveToY) && !(Board.board[i][j].getColor().equals(this.getColor()))) {
                         return true;
                     }
@@ -150,11 +208,12 @@ public class King extends Piece{
         }
         return false;
     }
-    public boolean isInCheckmate(int moveToX, int moveToY){
+
+    public boolean isInCheckmate(int moveToX, int moveToY) {
         int moveToX1 = moveToX + 1;
         int moveToX2 = moveToX - 1;
         boolean result = false;
-        if(this.isInCheck(moveToX,moveToY)) {
+        if (this.isInCheck(moveToX, moveToY)) {
             if (!this.isPossibleMove(getX(), getY(), moveToX1, moveToY)) {
                 result = true;
             } else if (!this.isPossibleMove(getX(), getY(), moveToX2, moveToY)) {
@@ -167,6 +226,15 @@ public class King extends Piece{
         }
         return result;
     }
+
+    @Override
+    public void move(int startX, int startY, int x, int y) {
+        super.move(startX, startY, x, y);
+        if (isFirstMove()) {
+            setFirstMove(false);
+        }
+    }
+
     @Override
     public String toString() {
         if (super.getColor().equals("white")) {
