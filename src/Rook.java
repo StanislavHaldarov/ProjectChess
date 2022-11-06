@@ -1,6 +1,16 @@
 public class Rook extends Piece {
-    public Rook(String color, int x, int y) {
+    private boolean isFirstMove;
+
+    public boolean isFirstMove() {
+        return isFirstMove;
+    }
+
+    public void setFirstMove(boolean firstMove) {
+        isFirstMove = firstMove;
+    }
+    public Rook(String color, int x, int y,boolean isFirstMove) {
         super(color, x, y);
+        this.isFirstMove = isFirstMove;
     }
 
     @Override
@@ -36,6 +46,9 @@ public class Rook extends Piece {
     @Override
     public void move(int startX, int startY, int x, int y) {
         super.move(startX, startY, x, y);
+        if(isFirstMove()){
+            setFirstMove(false);
+        }
     }
 
 }
