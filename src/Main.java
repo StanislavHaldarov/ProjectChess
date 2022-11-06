@@ -56,16 +56,28 @@ public class Main {
 //        Board.board[3][2].move(3,2,2,2);
 
         //pawn end row check test
-//        Board.board[1][0] = new Pawn("white", 1, 0, true);
+//        Board.board[1][0] = new Pawn("white", 1, 0, true, 0);
 //        Board.board[1][0].move(1,0,0,0);
 //        Board.board[5][6] = new King("white", 5 ,6);
 //        Board.board[5][6].move(5,6,6,7);
 //        Board.board[3][4] = new Pawn("black", 3, 4, false, 1);
 //        Board.board[3][3] = new Pawn("white", 3, 3, false, 1);
 //        Board.board[3][3].move(3, 3, 2, 4);
-        Board.board[3][4] = new Pawn("black", 3, 4, false, 1);
-        Board.board[3][3] = new King("white", 3, 3);
-        Board.board[3][3].move(3,3,5,5);
+//        Board.board[3][4] = new Pawn("black", 3, 4, false, 1);
+        King king = new King("white", 4,3);
+        Board.board[4][3] = king;
+        Board.board[5][2] = new Queen("black", 5, 2);
+        Board.board[3][0] = new Queen("black", 3, 0);
         board1.printBoard();
+//        System.out.println( Board.board[5][2].isPossibleMove(5, 2, 4, 3));
+//        System.out.println(king.isInCheck(4, 3));
+//        System.out.println(king.isInCheckmate(king.getX(), king.getY()));
+        if(king.isInCheck(king.getX(), king.getY())){
+            System.out.println("Check");
+        }
+        if(king.isInCheckmate(king.getX(), king.getY())){
+            System.out.println("CHECKMATE! GAME OVER "+king.getColor().toUpperCase() + " LOST");
+        }
+
     }
 }

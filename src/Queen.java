@@ -15,6 +15,11 @@ public class Queen extends Piece {
         } else {
             result = checkHorizontalDirections(startX,startY,moveToX,moveToY);
         }
+//        if(!(Board.board[moveToX][moveToY] instanceof King) && result){
+//            result = true;
+//        } else {
+//            result = false;
+//        }
         return result;
     }
 
