@@ -31,13 +31,13 @@ public class Pawn extends Piece {
 
     @Override
     public boolean isPossibleMove(int startX, int startY, int moveToX, int moveToY) {
-        boolean result;
+        boolean result = false;
         if (getColor().equalsIgnoreCase("white")) {
             if (moveToX == startX - 1 && moveToY == startY - 1) {
                 result = checkWhiteWestDiagonal(startX, startY, moveToX, moveToY);
             } else if (moveToX == startX - 1 && moveToY == startY + 1) {
                 result = checkWhiteEastDiagonal(startX, startY, moveToX, moveToY);
-            } else {
+            } else if(moveToX == (startX - 2) && moveToY==startY){
                 result = checkWhiteIfFirstMove(startX, startY, moveToX, moveToY);
             }
         } else {
@@ -45,7 +45,7 @@ public class Pawn extends Piece {
                 result = checkBlackWestDiagonal(startX, startY, moveToX, moveToY);
             } else if (moveToX == startX + 1 && moveToY == startY + 1) {
                 result = checkBlackEastDiagonal(startX, startY, moveToX, moveToY);
-            } else {
+            } else if(moveToX == (startX + 2) && moveToY==startY){
                 result = checkBlackIfFirstMove(startX, startY, moveToX, moveToY);
             }
         }

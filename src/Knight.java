@@ -7,10 +7,9 @@ public class Knight extends Piece{
     public boolean isPossibleMove(int startX, int startY, int moveToX, int moveToY) {
         if((Board.board[moveToX][moveToY] == null) || (Board.board[moveToX][moveToY].getColor()!=Board.board[startX][startY].getColor())) {
             if (((startX + 2 == moveToX) && (startY + 1 == moveToY)) || ((startX + 1 == moveToX) && (startY + 2 == moveToY)) || ((startX - 1 == moveToX) && (startY + 2 == moveToY)) || ((startX - 2 == moveToX) && (startY + 1 == moveToY))
-                    || ((startX - 2 == moveToX) && (moveToY - 1 == moveToY)) || ((startX - 1 == moveToX) && (startY - 2 == moveToY)) || ((startX + 1 == moveToX) && (startY - 2 == moveToY)) || ((startX + 2 == moveToX) && (startY - 1 == moveToY))) {
+                    || (((startX - 2) == moveToX) && ((startY - 1) == moveToY)) || ((startX - 1 == moveToX) && (startY - 2 == moveToY)) || ((startX + 1 == moveToX) && (startY - 2 == moveToY)) || ((startX + 2 == moveToX) && (startY - 1 == moveToY))) {
                 return true;
             } else{
-
                 return false;
             }
         } else{
