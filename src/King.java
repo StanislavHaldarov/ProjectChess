@@ -3,6 +3,7 @@ import java.util.List;
 
 public class King extends Piece {
     private boolean isFirstMove;
+    static boolean inCheck = false;
 
     public boolean isFirstMove() {
         return isFirstMove;
@@ -34,14 +35,66 @@ public class King extends Piece {
         } else {
             result = false;
         }
-        if (this.isInCheck(moveToX, moveToY)) {
-            if (this.isInCheckmate(moveToX, moveToY)) {
+        if (inCheck) {
+            if (this.isInCheckmate()) {
                 return false;
-//                System.out.println("GAME OVER! "+this.getColor() + " LOST");
-//                System.exit(0);
             }
         }
-        result = result && !(this.isInCheck(moveToX, moveToY));
+        result = result && !(inCheck);
+        return result;
+    }
+
+    public boolean isPossibleMove2(int startX, int startY, int moveToX, int moveToY) {
+        boolean result;
+        if ((moveToX == startX - 1 || moveToX == startX || moveToX == startX + 1) && (moveToY == startY - 1 || moveToY == startY || moveToY == startY + 1)) {
+            if (moveToX < startX) {
+                result = checkNorthDirectionsKing(startX, startY, moveToX, moveToY);
+            } else if (moveToX > startX) {
+                result = checkSouthDirectionsKing(startX, startY, moveToX, moveToY);
+            } else {
+                result = checkHorizontalDirectionsKing(startX, startY, moveToX, moveToY);
+            }
+        } else if ((moveToY == startY + 2 || moveToY == startY - 2) && isFirstMove()) {
+            result = checkKingCastling(startX, startY, moveToX, moveToY);
+
+        } else {
+            result = false;
+        }
+        if (isInCheck(moveToX, moveToY) && result == false) {
+            result = false;
+        }
+        return result;
+    }
+
+
+
+    public boolean isInCheck(int moveToX, int moveToY) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (Board.board[i][j] != null && !(Board.board[i][j] instanceof King)) {
+                    if (Board.board[i][j].isPossibleMove(i, j, moveToX, moveToY) && !(Board.board[i][j].getColor().equals(this.getColor()))) {
+                        this.inCheck = true;
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isInCheckmate() {
+        boolean result = true;
+        if (inCheck) {
+            if (this.isPossibleMove2(getX(), getY(), (this.getX()+1), getY())) {
+                result = false;
+            } else if (this.isPossibleMove2(getX(), getY(), (getX()-1),getY())) {
+                result = false;
+            } else if (this.isPossibleMove2(getX(), getY(), getX(), (getY() - 1))) {
+                result = false;
+            } else if (this.isPossibleMove2(getX(), getY(), getX(), (getY() + 1))) {
+                result = false;
+            }
+        }
         return result;
     }
 
@@ -192,37 +245,6 @@ public class King extends Piece {
             result = checkEastKing(startX, startY, moveToX, moveToY);
         } else {
             result = false;
-        }
-        return result;
-    }
-
-    public boolean isInCheck(int moveToX, int moveToY) {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (Board.board[i][j] != null && !(Board.board[i][j] instanceof King)) {
-                    if (Board.board[i][j].isPossibleMove(i, j, moveToX, moveToY) && !(Board.board[i][j].getColor().equals(this.getColor()))) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean isInCheckmate(int moveToX, int moveToY) {
-        int moveToX1 = moveToX + 1;
-        int moveToX2 = moveToX - 1;
-        boolean result = false;
-        if (this.isInCheck(moveToX, moveToY)) {
-            if (!this.isPossibleMove(getX(), getY(), moveToX1, moveToY)) {
-                result = true;
-            } else if (!this.isPossibleMove(getX(), getY(), moveToX2, moveToY)) {
-                result = true;
-            } else if (!this.isPossibleMove(getX(), getY(), moveToX, (moveToY - 1))) {
-                result = true;
-            } else if (!this.isPossibleMove(getX(), getY(), moveToX, (moveToY + 1))) {
-                result = true;
-            }
         }
         return result;
     }

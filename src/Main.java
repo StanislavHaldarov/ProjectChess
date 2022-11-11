@@ -64,22 +64,22 @@ public class Main {
 //        Board.board[3][3] = new Pawn("white", 3, 3, false, 1);
 //        Board.board[3][3].move(3, 3, 2, 4);
 //        Board.board[3][4] = new Pawn("black", 3, 4, false, 1);
-//        King king = new King("white", 4,3,false);
-//        Board.board[4][3] = king;
-//        Board.board[5][2] = new Queen("black", 5, 2);
-//        Board.board[3][0] = new Queen("black", 3, 0);
-//        board1.printBoard();
+        King king = new King("white", 0,6,false);
+        Board.board[0][6] = king;
+        Board.board[0][2] = new Queen("black", 0, 2);
+        Board.board[1][2] = new Queen("black", 6, 2);
+        board1.printBoard();
 //        System.out.println( Board.board[5][2].isPossibleMove(5, 2, 4, 3));
 //        System.out.println(king.isInCheck(4, 3));
 //        System.out.println(king.isInCheckmate(king.getX(), king.getY()));
-//        if(king.isInCheck(king.getX(), king.getY())){
-//            System.out.println("Check");
-//        }
-//        if(king.isInCheckmate(king.getX(), king.getY())){
-//            System.out.println("CHECKMATE! GAME OVER "+king.getColor().toUpperCase() + " LOST");
-//        }
-        Board.board[7][4] = new King("white", 7,4,true);
-        Board.board[7][4].move(7,4,7,6);
+        if(king.isInCheck(king.getX(), king.getY())){
+            System.out.println("Check");
+        }
+        if(king.isInCheckmate()){
+            System.out.println("CHECKMATE! GAME OVER "+king.getColor().toUpperCase() + " LOST");
+        }
+//        Board.board[7][4] = new King("white", 7,4,true);
+//        Board.board[7][4].move(7,4,7,6);
         board1.printBoard();
 
     }
