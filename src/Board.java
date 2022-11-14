@@ -4,6 +4,7 @@ public class Board {
     static Piece board[][] = new Piece[8][8];
     static ArrayList<Piece> whitePieces = new ArrayList<Piece>();
     static ArrayList<Piece> blackPieces = new ArrayList<Piece>();
+    //qqq
 
     public static void printBoard() {
         System.out.println("      a    b    c    d    e    f    g    h");
