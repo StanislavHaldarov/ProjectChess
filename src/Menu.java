@@ -3,14 +3,7 @@ import java.util.Scanner;
 public class Menu {
     public static void menu() {
         System.out.println("CHESS \nby Stanislav Haldarov and Belis Aliosmanova");
-        Player player = new Player();
-        player.setUsername(enterName());
-    }
-
-    public static String enterName() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Enter name: ");
-        return scan.nextLine();
+        chooseDifficulty();
     }
 
     public static void chooseDifficulty() {
@@ -19,9 +12,9 @@ public class Menu {
         System.out.print("Enter 1 for easy game or 2 for difficult game --> ");
         int choice = scan.nextInt();
         if (choice == 1) {
-            randomGame();
+            inGame(true);
         } else if (choice == 2) {
-
+            inGame(false);
         } else {
             System.out.println("Oops! This option doesn't exist.");
         }
@@ -52,18 +45,16 @@ public class Menu {
         }
     }
 
-    public static void randomGame() {
+    public static void inGame(boolean isRandom) {
         Scanner scan = new Scanner(System.in);
         Board board = new Board();
-        board.initializeStartingBoard();
-        board.printBoard();
+        Board.initializeStartingBoard();
+        Board.printBoard();
         boolean isTheGameOver = false;
         while (!isTheGameOver) {
             enterPlayersChoice();
             board.printBoard();
-            RandomBot randomBot = new RandomBot();
-            randomBot.chooseRandomAPiece();
-            randomBot.generateRandomMove();
+            Board.board[Board.checkBlackMoves(isRandom).getStartX()][Board.checkBlackMoves(isRandom).getStartY()].move(Board.checkBlackMoves(isRandom).getStartX(),Board.checkBlackMoves(isRandom).getStartY(), Board.checkBlackMoves(isRandom).getMoveToX(), Board.checkBlackMoves(isRandom).getMoveToY());
             board.printBoard();
         }
     }

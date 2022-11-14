@@ -208,7 +208,6 @@ public class King extends Piece {
         } else {
             return false;
         }
-
     }
 
     private boolean checkSouthKing(int startX, int startY, int moveToX, int moveToY) {
