@@ -9,7 +9,7 @@ public class Board {
         System.out.println("      a    b    c    d    e    f    g    h");
 
         System.out.println("   -----------------------------------------");
-        int count = 1;
+        int count = 8;
         for (int i = 0; i < 8; i++) {
             System.out.print(count + " ");
             System.out.print(" | ");
@@ -21,7 +21,7 @@ public class Board {
                 }
             }
             System.out.print(count);
-            count++;
+            count--;
             System.out.println();
             System.out.println("   -----------------------------------------");
         }
@@ -109,11 +109,7 @@ public class Board {
         }
     }
 
-    public static void checkBlackMoves() {
-        sortPieces();
-        ArrayList<PossibleMoves> blackMoves = new ArrayList<>();
-        blackMoves.add(new PossibleMoves("default", "default", 0));
-        ArrayList<PossibleMoves> whiteMoves = new ArrayList<>();
+    public static void loopBlackPieces(ArrayList<PossibleMoves> blackMoves) {
         for (Piece blackPiece : blackPieces) {
             for (int k = 0; k < 8; k++) {
                 for (int l = 0; l < 8; l++) {
@@ -122,15 +118,19 @@ public class Board {
                             blackMoves.add(new PossibleMoves(transformCoordinates(blackPiece.getX(), blackPiece.getY()), transformCoordinates(k, l), 0));
                             if (Board.board[k][l] != null) {
                                 blackMove.setValue(returnMoveValue(k, l));
-
                             }
-
                         }
                     }
-
                 }
             }
         }
+    }
+
+    public static PossibleMoves checkBlackMoves() {
+        sortPieces();
+        ArrayList<PossibleMoves> blackMoves = new ArrayList<>();
+        blackMoves.add(new PossibleMoves("default", "default", 0));
+        loopBlackPieces(blackMoves);
         blackMoves.remove(0);
         for (PossibleMoves blackMove : blackMoves) {
             int moveX = transformRows(blackMove.getMoveCords());
@@ -156,22 +156,30 @@ public class Board {
                 }
             }
         }
+        PossibleMoves move;
+        move = blackMoves.get(0);
+        for (PossibleMoves blackMove : blackMoves) {
+            if (move.getValue() < blackMove.getValue()) {
+                move = blackMove;
+            }
+        }
+        return move;
     }
 
     public static void initializeStartingBoard() {
         board[0][1] = new Knight("black", 0, 1);
         board[0][6] = new Knight("black", 0, 6);
-        board[1][0] = new Pawn("black", 1, 0, true, 0);
+//        board[1][0] = new Pawn("black", 1, 0, true, 0);
         board[1][1] = new Pawn("black", 1, 1, true, 0);
-//            board[1][2] = new Pawn("black", 1, 2, true, 0);
-//            board[1][3] = new Pawn("black", 1, 3, true, 0);
-//            board[1][4] = new Pawn("black", 1, 4, true, 0);
-//            board[1][5] = new Pawn("black", 1, 5, true, 0);
-            board[1][6] = new Pawn("black", 1, 6, true, 0);
-            board[1][7] = new Pawn("black", 1, 7, true, 0);
+        board[1][2] = new Pawn("black", 1, 2, true, 0);
+        board[1][3] = new Pawn("black", 1, 3, true, 0);
+        board[1][4] = new Pawn("black", 1, 4, true, 0);
+        board[1][5] = new Pawn("black", 1, 5, true, 0);
+        board[1][6] = new Pawn("black", 1, 6, true, 0);
+        board[1][7] = new Pawn("black", 1, 7, true, 0);
 
-        board[0][1] = new Knight("black", 1, 0);
-        board[0][6] = new Knight("black", 1, 0);
+        board[0][1] = new Knight("black", 0, 1);
+        board[0][6] = new Knight("black", 0, 6);
         board[1][0] = new Pawn("black", 1, 0, true, 0);
         board[1][1] = new Pawn("black", 1, 1, true, 0);
         board[1][2] = new Pawn("black", 1, 2, true, 0);
@@ -181,33 +189,33 @@ public class Board {
         board[1][6] = new Pawn("black", 1, 6, true, 0);
         board[1][7] = new Pawn("black", 1, 7, true, 0);
         board[0][3] = new Queen("black", 0, 3);
-//        board[0][4] = new King("black", 0, 4);
-//        board[0][0] = new Rook("black", 0, 0);
-//        board[0][7] = new Rook("black", 0, 7);
-//        board[0][2] = new Bishop("black", 0, 1);
-//        board[0][5] = new Bishop("black", 0, 6);
-//        // white
-//        board[7][1] = new Knight("white", 6, 7);
-//        board[7][6] = new Knight("white", 6, 7);
-//        board[6][0] = new Pawn("white", 6, 0, true, 0);
-//        board[6][1] = new Pawn("white", 6, 1, true, 0);
-//        board[6][2] = new Pawn("white", 6, 2, true, 0);
-//        board[6][3] = new Pawn("white", 6, 3, true, 0);
-//        board[6][4] = new Pawn("white", 6, 4, true, 0);
-//        board[6][5] = new Pawn("white", 6, 5, true, 0);
-//        board[6][6] = new Pawn("white", 6, 6, true, 0);
-//        board[6][7] = new Pawn("white", 6, 7, true, 0);
-//        board[7][3] = new Queen("white", 7, 3);
-//        board[7][4] = new King("white", 7, 4,true);
+        board[0][4] = new King("black", 0, 4, true);
+        board[0][0] = new Rook("black", 0, 0, true);
+        board[0][7] = new Rook("black", 0, 7, true);
+        board[0][2] = new Bishop("black", 0, 1);
+        board[0][5] = new Bishop("black", 0, 6);
+        // white
+        board[7][1] = new Knight("white", 6, 7);
+        board[7][6] = new Knight("white", 6, 7);
+        board[6][0] = new Pawn("white", 6, 0, true, 0);
+        board[6][1] = new Pawn("white", 6, 1, true, 0);
+        board[6][2] = new Pawn("white", 6, 2, true, 0);
+        board[6][3] = new Pawn("white", 6, 3, true, 0);
+        board[6][4] = new Pawn("white", 6, 4, true, 0);
+        board[6][5] = new Pawn("white", 6, 5, true, 0);
+        board[6][6] = new Pawn("white", 6, 6, true, 0);
+        board[6][7] = new Pawn("white", 6, 7, true, 0);
+        board[7][3] = new Queen("white", 7, 3);
+        board[7][4] = new King("white", 7, 4,true);
         board[7][0] = new Rook("white", 7, 0, true);
         board[7][7] = new Rook("white", 7, 7, true);
-//        board[7][2] = new Bishop("white", 7, 1);
-//        board[7][5] = new Bishop("white", 7, 6);
+        board[7][2] = new Bishop("white", 7, 1);
+        board[7][5] = new Bishop("white", 7, 6);
         sortPieces();
 
     }
-    private static void sortPieces()
-    {
+
+    public static void sortPieces() {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 if (Board.board[i][j] != null) {
@@ -222,7 +230,6 @@ public class Board {
     }
 }
 
-}
 
 
 

@@ -83,16 +83,16 @@ public class King extends Piece {
     }
 
     public boolean isInCheckmate() {
-        boolean result = true;
+        boolean result = false;
         if (inCheck) {
-            if (this.isPossibleMove2(getX(), getY(), (this.getX()+1), getY())) {
-                result = false;
-            } else if (this.isPossibleMove2(getX(), getY(), (getX()-1),getY())) {
-                result = false;
-            } else if (this.isPossibleMove2(getX(), getY(), getX(), (getY() - 1))) {
-                result = false;
-            } else if (this.isPossibleMove2(getX(), getY(), getX(), (getY() + 1))) {
-                result = false;
+            if (!this.isPossibleMove2(getX(), getY(), (this.getX()+1), getY())) {
+                result = true;
+            } else if (!this.isPossibleMove2(getX(), getY(), (getX()-1),getY())) {
+                result = true;
+            } else if (!this.isPossibleMove2(getX(), getY(), getX(), (getY() - 1))) {
+                result = true;
+            } else if (!this.isPossibleMove2(getX(), getY(), getX(), (getY() + 1))) {
+                result = true;
             }
         }
         return result;
@@ -221,7 +221,6 @@ public class King extends Piece {
     }
 
     private boolean checkEastKing(int startX, int startY, int moveToX, int moveToY) {
-
         if (startY < 7) {
             return Board.board[moveToX][moveToY] == null || !(Board.board[startX][startY].getColor().equals(Board.board[moveToX][moveToY].getColor()));
         } else {

@@ -39,6 +39,8 @@ public class Pawn extends Piece {
                 result = checkWhiteEastDiagonal(startX, startY, moveToX, moveToY);
             } else if(moveToX == (startX - 2) && moveToY==startY){
                 result = checkWhiteIfFirstMove(startX, startY, moveToX, moveToY);
+            } else if(moveToX==startX-1 && moveToY==startY){
+                result = checkWhiteFront(startX,startY,moveToX,moveToY);
             }
         } else {
             if (moveToX == startX + 1 && moveToY == startY - 1) {
@@ -47,6 +49,8 @@ public class Pawn extends Piece {
                 result = checkBlackEastDiagonal(startX, startY, moveToX, moveToY);
             } else if(moveToX == (startX + 2) && moveToY==startY){
                 result = checkBlackIfFirstMove(startX, startY, moveToX, moveToY);
+            } else if(moveToX==startX+1 && moveToY==startY){
+                result = checkBlackFront(startX,startY,moveToX,moveToY);
             }
         }
         return result;
