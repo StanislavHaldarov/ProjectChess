@@ -92,7 +92,6 @@ public class Main {
 ////        pawn.move(1,0,3,1);
 ////        board1.printBoard();
         Menu.menu();
-        Menu.chooseDifficulty();
 //        board1.printBoard();
 //        Board.board[0][1].move(0, 1, 1,0);
     }
