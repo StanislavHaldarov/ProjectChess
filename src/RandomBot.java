@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class RandomBot{
     public Piece piece;
-
+    boolean r = false;
     public Piece chooseRandomAPiece() {
         Board.sortPieces();
         int index = (int) (Math.random() * Board.blackPieces.size());
@@ -14,21 +14,25 @@ public class RandomBot{
         Random random = new Random();
         int randomRow;
         int randomColumn;
-        boolean r = false;
-        while (!r) {
+        int i = 0;
+        while (!r || i<=100) {
             try {
                 randomRow = random.nextInt(7);
                 randomColumn = random.nextInt(7);
                 boolean result = piece.isPossibleMove(piece.getX(), piece.getY(), randomRow, randomColumn);
                 if (result) {
                     r = true;
-//                    System.out.println("Random piece -> "+piece.toString() + " start row-> "+piece.getX() + " start column " + piece.getY());
-//                    System.out.println("Random row "+randomRow);
-//                    System.out.println("Random colon "+ randomColumn);
+                    System.out.println("Random Bot chose -> " + Board.board[piece.getX()][piece.getY()].toString() + " ["+piece.getX()+"]["+piece.getY()+"]" + "  New coordinates ["+randomRow+"]["+randomColumn+"]");
                     piece.move(piece.getX(), piece.getY(), randomRow, randomColumn);
+                    break;
+                }
+                i++;
+                if(i==100){
+                    chooseRandomAPiece();
+                    generateRandomMove();
                 }
             } catch (Exception e) {
-                System.out.println(e);
+//                System.out.println("EXCEPTION!!!!!!! "+e);
             }
         }
     }

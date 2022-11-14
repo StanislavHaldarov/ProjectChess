@@ -4,8 +4,10 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 //        Menu.menu();
-        Board board1 = new Board();
-        board1.initializeStartingBoard();
+//        Board board1 = new Board();
+//        board1.initializeStartingBoard();
+//        Board.board[0][1].move(0,1,2,3);
+//        board1.printBoard();
 //        board1.printBoard();
 ////        board1.printBoard();
 ////        System.out.println("Enter what you want to move ");
@@ -89,8 +91,8 @@ public class Main {
 ////        Pawn pawn = new Pawn("black", 1,0,true, 0);
 ////        pawn.move(1,0,3,1);
 ////        board1.printBoard();
+        Menu.menu();
         Menu.chooseDifficulty();
-
 //        board1.printBoard();
 //        Board.board[0][1].move(0, 1, 1,0);
     }

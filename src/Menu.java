@@ -16,7 +16,7 @@ public class Menu {
     public static void chooseDifficulty() {
         Scanner scan = new Scanner(System.in);
         System.out.println("The options are -> easy and difficult");
-        System.out.println("Enter 1 for easy game or 2 for difficult game");
+        System.out.print("Enter 1 for easy game or 2 for difficult game --> ");
         int choice = scan.nextInt();
         if (choice == 1) {
             randomGame();

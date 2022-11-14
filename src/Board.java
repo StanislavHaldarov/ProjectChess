@@ -178,8 +178,8 @@ public class Board {
         board[1][6] = new Pawn("black", 1, 6, true, 0);
         board[1][7] = new Pawn("black", 1, 7, true, 0);
 
-        board[0][1] = new Knight("black", 1, 0);
-        board[0][6] = new Knight("black", 1, 0);
+        board[0][1] = new Knight("black", 0, 1);
+        board[0][6] = new Knight("black", 0, 6);
         board[1][0] = new Pawn("black", 1, 0, true, 0);
         board[1][1] = new Pawn("black", 1, 1, true, 0);
         board[1][2] = new Pawn("black", 1, 2, true, 0);

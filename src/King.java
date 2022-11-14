@@ -221,7 +221,6 @@ public class King extends Piece {
     }
 
     private boolean checkEastKing(int startX, int startY, int moveToX, int moveToY) {
-
         if (startY < 7) {
             return Board.board[moveToX][moveToY] == null || !(Board.board[startX][startY].getColor().equals(Board.board[moveToX][moveToY].getColor()));
         } else {
