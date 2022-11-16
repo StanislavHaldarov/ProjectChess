@@ -37,20 +37,20 @@ public class Pawn extends Piece {
                 result = checkWhiteWestDiagonal(startX, startY, moveToX, moveToY);
             } else if (moveToX == startX - 1 && moveToY == startY + 1) {
                 result = checkWhiteEastDiagonal(startX, startY, moveToX, moveToY);
-            } else if(moveToX == (startX - 2) && moveToY==startY){
+            } else if (moveToX == (startX - 2) && moveToY == startY) {
                 result = checkWhiteIfFirstMove(startX, startY, moveToX, moveToY);
-            } else if(moveToX==startX-1 && moveToY==startY){
-                result = checkWhiteFront(startX,startY,moveToX,moveToY);
+            } else if (moveToX == startX - 1 && moveToY == startY) {
+                result = checkWhiteFront(startX, startY, moveToX, moveToY);
             }
         } else {
             if (moveToX == startX + 1 && moveToY == startY - 1) {
                 result = checkBlackWestDiagonal(startX, startY, moveToX, moveToY);
             } else if (moveToX == startX + 1 && moveToY == startY + 1) {
                 result = checkBlackEastDiagonal(startX, startY, moveToX, moveToY);
-            } else if(moveToX == (startX + 2) && moveToY==startY){
+            } else if (moveToX == (startX + 2) && moveToY == startY) {
                 result = checkBlackIfFirstMove(startX, startY, moveToX, moveToY);
-            } else if(moveToX==startX+1 && moveToY==startY){
-                result = checkBlackFront(startX,startY,moveToX,moveToY);
+            } else if (moveToX == startX + 1 && moveToY == startY) {
+                result = checkBlackFront(startX, startY, moveToX, moveToY);
             }
         }
         return result;
@@ -99,67 +99,103 @@ public class Pawn extends Piece {
 
     private boolean checkWhiteWestDiagonal(int startX, int startY, int moveToX, int moveToY) {
         if (startY != 0) {
-            if (Board.board[startX - 1][startY - 1] != null) {
-                return !(Board.board[startX - 1][startY - 1].getColor().equalsIgnoreCase("white"));
-            } else if (Board.board[startX][startY - 1] instanceof Pawn) {
-                if (Board.board[startX][startY - 1].getColor().equalsIgnoreCase("black")) {
-                    Board.board[startX][startY - 1] = null;
-                    return true;
+            if (Board.board[moveToX][moveToY] != null) {
+                return !(Board.board[moveToX][moveToY].getColor().equalsIgnoreCase("white"));
+            } else {
+                if (Board.board[startX][startY - 1] != null) {
+                    if (Board.board[startX][startY - 1] instanceof Pawn) {
+                        if (Board.board[startX][startY - 1].getColor().equalsIgnoreCase("black") && ((Pawn) Board.board[startX][startY - 1]).getMovesCount() == 1) {
+                            Board.board[moveToX + 1][moveToY] = null;
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
                 } else {
                     return false;
                 }
             }
+        } else {
+            return false;
         }
-        return false;
     }
 
     private boolean checkWhiteEastDiagonal(int startX, int startY, int moveToX, int moveToY) {
         if (startY != 7) {
-            if (Board.board[startX - 1][startY + 1] != null) {
-                return !(Board.board[startX - 1][startY + 1].getColor().equalsIgnoreCase("white"));
-            } else if (Board.board[startX][startY + 1] instanceof Pawn) {
-                if (Board.board[startX][startY + 1].getColor().equalsIgnoreCase("black")) {
-                    Board.board[startX][startY + 1] = null;
-                    return true;
+            if (Board.board[moveToX][moveToY] != null) {
+                return !(Board.board[moveToX][moveToY].getColor().equalsIgnoreCase("white"));
+            } else {
+                if (Board.board[startX][startY + 1] != null) {
+                    if (Board.board[startX][startY + 1] instanceof Pawn) {
+                        if (Board.board[startX][startY + 1].getColor().equalsIgnoreCase("black") && ((Pawn) Board.board[startX][startY + 1]).getMovesCount() == 1) {
+                            Board.board[moveToX + 1][moveToY] = null;
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
                 } else {
                     return false;
                 }
             }
+        } else {
+            return false;
         }
-        return false;
     }
 
     private boolean checkBlackWestDiagonal(int startX, int startY, int moveToX, int moveToY) {
         if (startY != 0) {
-            if (Board.board[startX + 1][startY - 1] != null) {
-                return !(Board.board[startX + 1][startY - 1].getColor().equalsIgnoreCase("black"));
-            } else if (Board.board[startX][startY - 1] instanceof Pawn) {
-                if (Board.board[startX][startY - 1].getColor().equalsIgnoreCase("white")) {
-                    Board.board[startX][startY - 1] = null;
-                    return true;
+            if (Board.board[moveToX][moveToY] != null) {
+                return !(Board.board[moveToX][moveToY].getColor().equalsIgnoreCase("black"));
+            } else {
+                if (Board.board[startX][startY - 1] != null) {
+                    if (Board.board[startX][startY - 1] instanceof Pawn) {
+                        if (Board.board[startX][startY - 1].getColor().equalsIgnoreCase("white") && ((Pawn) Board.board[startX][startY - 1]).getMovesCount() == 1) {
+                            Board.board[moveToX - 1][moveToY] = null;
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
                 } else {
                     return false;
                 }
             }
+        } else {
+            return false;
         }
-        return false;
     }
 
 
     private boolean checkBlackEastDiagonal(int startX, int startY, int moveToX, int moveToY) {
         if (startY != 7) {
-            if (Board.board[startX + 1][startY + 1] != null) {
-                return !(Board.board[startX + 1][startY + 1].getColor().equalsIgnoreCase("black"));
-            } else if (Board.board[startX][startY + 1] instanceof Pawn) {
-                if (Board.board[startX][startY + 1].getColor().equalsIgnoreCase("white")) {
-                    Board.board[startX][startY + 1] = null;
-                    return true;
+            if (Board.board[moveToX][moveToY] != null) {
+                return !(Board.board[moveToX][moveToY].getColor().equalsIgnoreCase("black"));
+            } else {
+                if (Board.board[startX][startY + 1] != null) {
+                    if (Board.board[startX][startY + 1] instanceof Pawn) {
+                        if (Board.board[startX][startY + 1].getColor().equalsIgnoreCase("white") && ((Pawn) Board.board[startX][startY + 1]).getMovesCount() == 1) {
+                            Board.board[moveToX - 1][moveToY] = null;
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
                 } else {
                     return false;
                 }
             }
+        } else {
+            return false;
         }
-        return false;
     }
 
     public void changePawn(int startX, int startY) {
@@ -191,7 +227,7 @@ public class Pawn extends Piece {
             System.out.print("Invalid input! Please enter again (R-K-B-Q): ");
         }
         return switch (pieceChoice) {
-            case "R" -> new Rook(this.getColor(), x, y,false);
+            case "R" -> new Rook(this.getColor(), x, y, false);
             case "K" -> new Knight(this.getColor(), x, y);
             case "B" -> new Bishop(this.getColor(), x, y);
             default -> new Queen(this.getColor(), x, y);
@@ -215,7 +251,7 @@ public class Pawn extends Piece {
                 changePawn(x, y);
             }
         });
-        if(isFirstMove()){
+        if (isFirstMove()) {
             setFirstMove(false);
         }
     }

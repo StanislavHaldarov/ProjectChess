@@ -1,11 +1,10 @@
 import java.util.Scanner;
 
 public class Menu {
-    public static void menu() {
+    public static void main(String[] args) {
         System.out.println("CHESS \nby Stanislav Haldarov and Belis Aliosmanova");
         chooseDifficulty();
     }
-
     public static void chooseDifficulty() {
         Scanner scan = new Scanner(System.in);
         System.out.println("The options are -> easy and difficult");
@@ -54,8 +53,33 @@ public class Menu {
         while (!isTheGameOver) {
             enterPlayersChoice();
             board.printBoard();
-            Board.board[Board.checkBlackMoves(isRandom).getStartX()][Board.checkBlackMoves(isRandom).getStartY()].move(Board.checkBlackMoves(isRandom).getStartX(),Board.checkBlackMoves(isRandom).getStartY(), Board.checkBlackMoves(isRandom).getMoveToX(), Board.checkBlackMoves(isRandom).getMoveToY());
+            for (Piece blackPiece: Board.blackPieces) {
+                isTheGameOver = true;
+                if(blackPiece instanceof King){
+                    isTheGameOver = false;
+                    break;
+                }
+            }
+            if(isTheGameOver){
+                System.out.println("CHECKMATE! PLAYER WINS!");
+                break;
+            }
+            Board.sortPieces();
+            PossibleMoves botMove = BotLogic.makeMove(isRandom);
+            Board.board[botMove.getStartX()][botMove.getStartY()].move(botMove.getStartX(),botMove.getStartY(), botMove.getMoveToX(), botMove.getMoveToY());
             board.printBoard();
+            for (Piece whitePiece: Board.whitePieces) {
+                isTheGameOver = true;
+                if(whitePiece instanceof King){
+                    isTheGameOver = false;
+                    break;
+                }
+            }
+            if(isTheGameOver){
+                System.out.println("CHECKMATE! CPU WINS!");
+                break;
+            }
+            Board.sortPieces();
         }
     }
 
