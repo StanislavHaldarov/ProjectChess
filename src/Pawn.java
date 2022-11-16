@@ -102,24 +102,16 @@ public class Pawn extends Piece {
             if (Board.board[moveToX][moveToY] != null) {
                 return !(Board.board[moveToX][moveToY].getColor().equalsIgnoreCase("white"));
             } else {
-                if (Board.board[startX][startY - 1] != null) {
-                    if (Board.board[startX][startY - 1] instanceof Pawn) {
-                        if (Board.board[startX][startY - 1].getColor().equalsIgnoreCase("black") && ((Pawn) Board.board[startX][startY - 1]).getMovesCount() == 1) {
-                            Board.board[moveToX + 1][moveToY] = null;
-                            return true;
-                        } else {
-                            return false;
+                if(startX == 3) {
+                    if (Board.board[startX][startY - 1] != null) {
+                        if (Board.board[startX][startY - 1] instanceof Pawn) {
+                            return Board.board[startX][startY - 1].getColor().equalsIgnoreCase("black") && ((Pawn) Board.board[startX][startY - 1]).getMovesCount() == 1;
                         }
-                    } else {
-                        return false;
                     }
-                } else {
-                    return false;
                 }
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     private boolean checkWhiteEastDiagonal(int startX, int startY, int moveToX, int moveToY) {
@@ -127,24 +119,17 @@ public class Pawn extends Piece {
             if (Board.board[moveToX][moveToY] != null) {
                 return !(Board.board[moveToX][moveToY].getColor().equalsIgnoreCase("white"));
             } else {
-                if (Board.board[startX][startY + 1] != null) {
-                    if (Board.board[startX][startY + 1] instanceof Pawn) {
-                        if (Board.board[startX][startY + 1].getColor().equalsIgnoreCase("black") && ((Pawn) Board.board[startX][startY + 1]).getMovesCount() == 1) {
-                            Board.board[moveToX + 1][moveToY] = null;
-                            return true;
-                        } else {
-                            return false;
+                if (startX == 3)
+                    if (Board.board[startX][startY + 1] != null) {
+                        if (Board.board[startX][startY + 1] instanceof Pawn) {
+                            return Board.board[startX][startY + 1].getColor().equalsIgnoreCase("black") && ((Pawn) Board.board[startX][startY + 1]).getMovesCount() == 1;
+
                         }
-                    } else {
-                        return false;
                     }
-                } else {
-                    return false;
-                }
+
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     private boolean checkBlackWestDiagonal(int startX, int startY, int moveToX, int moveToY) {
@@ -152,24 +137,16 @@ public class Pawn extends Piece {
             if (Board.board[moveToX][moveToY] != null) {
                 return !(Board.board[moveToX][moveToY].getColor().equalsIgnoreCase("black"));
             } else {
-                if (Board.board[startX][startY - 1] != null) {
-                    if (Board.board[startX][startY - 1] instanceof Pawn) {
-                        if (Board.board[startX][startY - 1].getColor().equalsIgnoreCase("white") && ((Pawn) Board.board[startX][startY - 1]).getMovesCount() == 1) {
-                            Board.board[moveToX - 1][moveToY] = null;
-                            return true;
-                        } else {
-                            return false;
+                if(startX == 4) {
+                    if (Board.board[startX][startY - 1] != null) {
+                        if (Board.board[startX][startY - 1] instanceof Pawn) {
+                            return Board.board[startX][startY - 1].getColor().equalsIgnoreCase("white") && ((Pawn) Board.board[startX][startY - 1]).getMovesCount() == 1;
                         }
-                    } else {
-                        return false;
                     }
-                } else {
-                    return false;
                 }
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
 
@@ -178,26 +155,34 @@ public class Pawn extends Piece {
             if (Board.board[moveToX][moveToY] != null) {
                 return !(Board.board[moveToX][moveToY].getColor().equalsIgnoreCase("black"));
             } else {
-                if (Board.board[startX][startY + 1] != null) {
-                    if (Board.board[startX][startY + 1] instanceof Pawn) {
-                        if (Board.board[startX][startY + 1].getColor().equalsIgnoreCase("white") && ((Pawn) Board.board[startX][startY + 1]).getMovesCount() == 1) {
-                            Board.board[moveToX - 1][moveToY] = null;
-                            return true;
-                        } else {
-                            return false;
+                if(startX == 3) {
+                    if (Board.board[startX][startY + 1] != null) {
+                        if (Board.board[startX][startY + 1] instanceof Pawn) {
+                            return Board.board[startX][startY + 1].getColor().equalsIgnoreCase("white") && ((Pawn) Board.board[startX][startY + 1]).getMovesCount() == 1;
                         }
-                    } else {
-                        return false;
                     }
-                } else {
-                    return false;
+                }
+            }
+        }
+        return false;
+    }
+    private void checkEnPassant(int x, int y)
+    {
+        if (getColor().equalsIgnoreCase("black")) {
+            if (Board.board[x-1][y] != null){
+                if ((Board.board[x-1][y].getColor().equalsIgnoreCase("white") && ((Pawn) Board.board[x-1][y]).getMovesCount() == 1)) {
+                    Board.board[x-1][y] = null;
                 }
             }
         } else {
-            return false;
+            if (Board.board[x+1][y] != null) {
+                if ((Board.board[x+1][y].getColor().equalsIgnoreCase("black") && ((Pawn) Board.board[x+1][y]).getMovesCount() == 1)) {
+                    Board.board[x+1][y] = null;
+                }
+            }
+
         }
     }
-
     public void changePawn(int startX, int startY) {
         Piece piece = askUserToChange(startX, startY);
         Board.board[startX][startY] = piece;
@@ -242,17 +227,25 @@ public class Pawn extends Piece {
             return "bPn";
         }
     }
-
+    public void moveWithRunnable(int startX, int startY, int x, int y, Runnable callback){
+        if (isPossibleMove(startX,startY,x,y)) {
+            Board.board[x][y] = Board.board[startX][startY];
+            Board.board[startX][startY] = null;
+            callback.run();
+        }
+    }
     @Override
     public void move(int startX, int startY, int x, int y) {
         setMovesCount(movesCount + 1);
-        super.move(startX, startY, x, y, () -> {
+        moveWithRunnable(startX, startY, x, y, () -> {
             if (checkEndRows(x)) {
                 changePawn(x, y);
             }
         });
+        checkEnPassant(x, y);
         if (isFirstMove()) {
-            setFirstMove(false);
-        }
+                setFirstMove(false);
+            }
+
     }
 }
