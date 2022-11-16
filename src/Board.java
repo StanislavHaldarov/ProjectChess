@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Board {
     static Piece board[][] = new Piece[8][8];
@@ -94,80 +95,6 @@ public class Board {
 //        return xyCoordinate;
 //    }
 
-    public static int returnMoveValue(int k, int l) {
-        if (Board.board[k][l] instanceof Pawn) {
-            return 10;
-        } else if (Board.board[k][l] instanceof Knight) {
-            return 30;
-        } else if (Board.board[k][l] instanceof Bishop) {
-            return 30;
-        } else if (Board.board[k][l] instanceof Rook) {
-            return 50;
-        } else if (Board.board[k][l] instanceof Queen) {
-            return 90;
-        } else {
-            return 900;
-        }
-    }
-
-    public static void loopBlackPieces(ArrayList<PossibleMoves> blackMoves, boolean isRandom) {
-//        blackMoves.add(new PossibleMoves("default", "default", 0));
-//        blackMoves.add(new PossibleMoves("default2", "default2", 0));
-        for (Piece blackPiece : blackPieces) {
-            for (int k = 0; k < 8; k++) {
-                for (int l = 0; l < 8; l++) {
-                    if(Board.board[blackPiece.getX()][blackPiece.getY()]!=null) {
-                        if (Board.board[blackPiece.getX()][blackPiece.getY()].isPossibleMove(blackPiece.getX(), blackPiece.getY(), k, l)) {
-                            blackMoves.add(new PossibleMoves(blackPiece.getX(), blackPiece.getY(), k, l, 0));
-                            if (Board.board[k][l] != null) {
-                                blackMoves.get(blackMoves.size() - 1).setValue(returnMoveValue(k, l));
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public static PossibleMoves checkBlackMoves(boolean isRandom) {
-        sortPieces();
-        ArrayList<PossibleMoves> blackMoves = new ArrayList<>();
-        loopBlackPieces(blackMoves, isRandom);
-        for (PossibleMoves blackMove : blackMoves) {
-            for (Piece blackPiece : blackPieces) {
-                if(Board.board[blackPiece.getX()][blackPiece.getY()]!=null) {
-                    if (Board.board[blackPiece.getX()][blackPiece.getY()].isPossibleMove(blackPiece.getX(), blackPiece.getY(), blackMove.getMoveToX(), blackMove.getMoveToY())) {
-                        Board.board[blackPiece.getX()][blackPiece.getY()].move(blackPiece.getX(), blackPiece.getY(), blackMove.getMoveToX(), blackMove.getMoveToY());
-                        int s = 0;
-                        for (Piece whitePiece : whitePieces) {
-                            for (int m = 0; m < 8; m++) {
-                                for (int n = 0; n < 8; n++) {
-                                    if (Board.board[whitePiece.getX()][whitePiece.getY()] != null) {
-                                        if (Board.board[whitePiece.getX()][whitePiece.getY()].isPossibleMove(whitePiece.getX(), whitePiece.getY(), m, n)) {
-                                            if (Board.board[m][n] != null) {
-                                                if (s < returnMoveValue(m, n)) {
-                                                    s = returnMoveValue(m, n);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        blackMove.setValue(blackMove.getValue() - s);
-                    }
-                }
-            }
-        }
-        PossibleMoves move;
-        move = blackMoves.get(0);
-        for (PossibleMoves blackMove : blackMoves) {
-            if (move.getValue() < blackMove.getValue()) {
-                move = blackMove;
-            }
-        }
-        return move;
-    }
 
     public static void initializeStartingBoard() {
 //        board[0][1] = new Knight("black", 0, 1);
