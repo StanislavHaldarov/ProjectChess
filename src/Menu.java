@@ -36,12 +36,7 @@ public class Menu {
         System.out.print("Enter the column/letter from a to h/ ");
         char newColumn = scan.next().charAt(0);
         int newColumnNumber = convertColumnToInt(newColumn);
-        if (Board.board[rowNumber][columnNumber].isPossibleMove(rowNumber, columnNumber, newRowNumber, newColumnNumber)) {
-            Board.board[rowNumber][columnNumber].move(rowNumber, columnNumber, newRowNumber, newColumnNumber);
-        } else {
-            System.out.println("NOW ENTER AGAIN!");
-            enterPlayersChoice();
-        }
+        Board.board[rowNumber][columnNumber].move(rowNumber, columnNumber, newRowNumber, newColumnNumber);
     }
 
     public static void inGame(boolean isRandom) {

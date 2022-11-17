@@ -6,14 +6,14 @@ public class Queen extends Piece {
     }
 
     @Override
-    public boolean isPossibleMove(int startX, int startY, int moveToX, int moveToY) {
+    public boolean isPossibleMove(int moveToX, int moveToY) {
         boolean result;
-        if (moveToX < startX) {
-            result = checkNorthDirections(startX, startY, moveToX, moveToY);
-        } else if (moveToX > startX) {
-            result = checkSouthDirections(startX, startY, moveToX, moveToY);
+        if (moveToX < getStartX()) {
+            result = checkNorthDirections(moveToX, moveToY);
+        } else if (moveToX > getStartX()) {
+            result = checkSouthDirections(moveToX, moveToY);
         } else {
-            result = checkHorizontalDirections(startX,startY,moveToX,moveToY);
+            result = checkHorizontalDirections(moveToX,moveToY);
         }
 //        if(!(Board.board[moveToX][moveToY] instanceof King) && result){
 //            result = true;
@@ -23,54 +23,54 @@ public class Queen extends Piece {
         return result;
     }
 
-    private boolean checkNorthDirections(int startX, int startY, int moveToX, int moveToY) {
-        if (moveToY < startY) {
-            if (startX - moveToX == startY - moveToY) {
-                return Diagonal.checkNorthwest(startX, startY, moveToX, moveToY);
+    private boolean checkNorthDirections(int moveToX, int moveToY) {
+        if (moveToY < getStartX()) {
+            if (getStartX() - moveToX == getStartY() - moveToY) {
+                return Diagonal.checkNorthwest(getStartX(), getStartY(), moveToX, moveToY);
             } else {
                 return false;
             }
-        } else if (moveToY == startY) {
-            return DirectionX.checkNorth(startX, startY, moveToX, moveToY);
+        } else if (moveToY == getStartY()) {
+            return DirectionX.checkNorth(getStartX(), getStartY(), moveToX, moveToY);
         } else {
-            if (startX - moveToX == moveToY - startY) {
-                return Diagonal.checkNortheast(startX, startY, moveToX, moveToY);
+            if (getStartX() - moveToX == moveToY - getStartY()) {
+                return Diagonal.checkNortheast(getStartX(), getStartY(), moveToX, moveToY);
             } else {
                 return false;
             }
         }
     }
 
-    private boolean checkSouthDirections(int startX, int startY, int moveToX, int moveToY) {
-        if (moveToY > startY) {
-            if (moveToX - startX == moveToY - startY) {
-                return Diagonal.checkSoutheast(startX, startY, moveToX, moveToY);
+    private boolean checkSouthDirections(int moveToX, int moveToY) {
+        if (moveToY > getStartY()) {
+            if (moveToX - getStartX() == moveToY - getStartY()) {
+                return Diagonal.checkSoutheast(getStartX(), getStartY(), moveToX, moveToY);
             } else {
                 return false;
             }
-        } else if (moveToY == startY) {
-            return DirectionX.checkSouth(startX, startY, moveToX, moveToY);
+        } else if (moveToY == getStartY()) {
+            return DirectionX.checkSouth(getStartX(), getStartY(), moveToX, moveToY);
         } else {
-            if (moveToX - startX == startY - moveToY) {
-                return Diagonal.checkSouthwest(startX, startY, moveToX, moveToY);
+            if (moveToX - getStartX() == getStartY() - moveToY) {
+                return Diagonal.checkSouthwest(getStartX(), getStartY(), moveToX, moveToY);
             } else {
                 return false;
             }
         }
     }
-    private boolean checkHorizontalDirections(int startX, int startY, int moveToX, int moveToY) {
-        if (moveToY < startY) {
-            return DirectionY.checkWest(startX, startY, moveToX, moveToY);
-        } else if (moveToY > startY) {
-            return DirectionY.checkEast(startX, startY, moveToX, moveToY);
+    private boolean checkHorizontalDirections(int moveToX, int moveToY) {
+        if (moveToY < getStartY()) {
+            return DirectionY.checkWest(getStartX(), getStartY(), moveToX, moveToY);
+        } else if (moveToY > getStartY()) {
+            return DirectionY.checkEast(getStartX(), getStartY(), moveToX, moveToY);
 
         } else {
             return false;
         }
     }
     @Override
-    public void move(int startX, int startY, int x, int y) {
-        super.move(startX,startY,x,y);
+    public void move(int x, int y) {
+        super.move(x,y);
     }
 
     @Override

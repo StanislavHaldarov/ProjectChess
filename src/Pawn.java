@@ -23,8 +23,8 @@ public class Pawn extends Piece {
         isFirstMove = firstMove;
     }
 
-    public Pawn(String color, int startX, int startY, boolean isFirstMove, int movesCount) {
-        super(color, startX, startY);
+    public Pawn(String color, boolean isFirstMove, int movesCount) {
+        super(color);
         this.isFirstMove = isFirstMove;
         this.movesCount = movesCount;
     }
@@ -236,16 +236,15 @@ public class Pawn extends Piece {
     }
     @Override
     public void move(int startX, int startY, int x, int y) {
-        setMovesCount(movesCount + 1);
         moveWithRunnable(startX, startY, x, y, () -> {
             if (checkEndRows(x)) {
                 changePawn(x, y);
             }
         });
         checkEnPassant(x, y);
+        setMovesCount(movesCount + 1);
         if (isFirstMove()) {
                 setFirstMove(false);
             }
-
     }
 }
