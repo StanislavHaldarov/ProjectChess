@@ -243,10 +243,20 @@ public class Pawn extends Piece {
         }
     }
 
+    public void move(int startX, int startY, int x, int y, Runnable callback){
+        boolean isPossibleMove = isPossibleMove(startX, startY, x, y);
+        if (isPossibleMove) {
+            Board.board[x][y] = Board.board[startX][startY];
+            Board.board[startX][startY] = null;
+            callback.run();
+        } else {
+            System.out.println("Not possible move!");
+        }
+    }
     @Override
     public void move(int startX, int startY, int x, int y) {
         setMovesCount(movesCount + 1);
-        super.move(startX, startY, x, y, () -> {
+        this.move(startX, startY, x, y, () -> {
             if (checkEndRows(x)) {
                 changePawn(x, y);
             }

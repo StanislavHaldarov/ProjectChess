@@ -17,16 +17,16 @@ public abstract class Piece {
             System.out.println("Not possible move!");
         }
     }
-    public void move(int startX, int startY, int x, int y, Runnable callback){
-        boolean isPossibleMove = isPossibleMove(startX, startY, x, y);
-        if (isPossibleMove) {
-            Board.board[x][y] = Board.board[startX][startY];
-            Board.board[startX][startY] = null;
-            callback.run();
-        } else {
-            System.out.println("Not possible move!");
-        }
-    }
+//    public void move(int startX, int startY, int x, int y, Runnable callback){
+//        boolean isPossibleMove = isPossibleMove(startX, startY, x, y);
+//        if (isPossibleMove) {
+//            Board.board[x][y] = Board.board[startX][startY];
+//            Board.board[startX][startY] = null;
+//            callback.run();
+//        } else {
+//            System.out.println("Not possible move!");
+//        }
+//    }
 
     public Piece(String color, int x, int y) {
         this.color = color;
