@@ -46,9 +46,10 @@ public class Rook extends Piece {
     @Override
     public void move(int startX, int startY, int x, int y) {
         super.move(startX, startY, x, y);
-        if(isFirstMove()){
-            setFirstMove(false);
-        }
+        if (isFirstMove()) {
+                setFirstMove(false);
+            }
+
     }
 
 }

@@ -67,7 +67,6 @@ public class King extends Piece {
     }
 
 
-
     public boolean isInCheck(int moveToX, int moveToY) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -85,9 +84,9 @@ public class King extends Piece {
     public boolean isInCheckmate() {
         boolean result = false;
         if (inCheck) {
-            if (!this.isPossibleMove2(getX(), getY(), (this.getX()+1), getY())) {
+            if (!this.isPossibleMove2(getX(), getY(), (this.getX() + 1), getY())) {
                 result = true;
-            } else if (!this.isPossibleMove2(getX(), getY(), (getX()-1),getY())) {
+            } else if (!this.isPossibleMove2(getX(), getY(), (getX() - 1), getY())) {
                 result = true;
             } else if (!this.isPossibleMove2(getX(), getY(), getX(), (getY() - 1))) {
                 result = true;
@@ -117,7 +116,7 @@ public class King extends Piece {
     private boolean checkShortCastling(int startX, int startY, int moveToX, int moveToY) {
         if (Board.board[startX][startY + 3] instanceof Rook) {
             if (((Rook) Board.board[startX][startY + 3]).isFirstMove()) {
-                Board.board[startX][startY+1] = new Rook(getColor(),startX,startY+1,false);
+                Board.board[startX][startY + 1] = new Rook(getColor(), startX, startY + 1, false);
                 Board.board[startX][startY + 3] = null;
                 return true;
             } else {
@@ -131,7 +130,7 @@ public class King extends Piece {
     private boolean checkLongCastling(int startX, int startY, int moveToX, int moveToY) {
         if (Board.board[startX][startY - 4] instanceof Rook) {
             if (((Rook) Board.board[startX][startY - 4]).isFirstMove()) {
-                Board.board[startX][startY-1] = new Rook(getColor(),startX,startY-1,false);
+                Board.board[startX][startY - 1] = new Rook(getColor(), startX, startY - 1, false);
                 Board.board[startX][startY - 4] = null;
                 return true;
             } else {
@@ -250,9 +249,10 @@ public class King extends Piece {
     @Override
     public void move(int startX, int startY, int x, int y) {
         super.move(startX, startY, x, y);
-        if (isFirstMove()) {
-            setFirstMove(false);
-        }
+            if (isFirstMove()) {
+                setFirstMove(false);
+            }
+
     }
 
     @Override
