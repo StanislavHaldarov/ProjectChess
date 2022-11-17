@@ -4,12 +4,12 @@ import java.util.function.Function;
 
 public abstract class Piece {
     private String color;
-    private int x, y;
-    public abstract boolean isPossibleMove(int startX, int startY, int moveToX, int moveToY);
+    private int startX, startY;
+    public abstract boolean isPossibleMove(int moveToX, int moveToY);
 
     public abstract String toString();
-    public void move(int startX, int startY, int x, int y){
-        boolean isPossibleMove = isPossibleMove(startX, startY, x, y);
+    public void move(int x, int y){
+        boolean isPossibleMove = isPossibleMove(x, y);
         if (isPossibleMove) {
             Board.board[x][y] = Board.board[startX][startY];
             Board.board[startX][startY] = null;
@@ -17,10 +17,10 @@ public abstract class Piece {
     }
 
 
-    public Piece(String color, int x, int y) {
+    public Piece(String color, int startX, int startY) {
         this.color = color;
-        setX(x);
-        setY(y);
+        this.startX = startX;
+        this.startY = startY;
     }
 
     public String getColor() {
@@ -31,20 +31,19 @@ public abstract class Piece {
         this.color = color;
     }
 
-    public int getX() {
-        return x;
+    public int getStartX() {
+        return startX;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setStartX(int startX) {
+        this.startX = startX;
     }
 
-    public int getY() {
-        return y;
+    public int getStartY() {
+        return startY;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setStartY(int startY) {
+        this.startY = startY;
     }
-
 }

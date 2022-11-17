@@ -39,6 +39,7 @@ public class BotLogic {
     }
 
     public static void addBlackPossibleMoves(ArrayList<PossibleMoves> blackMoves) {
+        Board.sortPieces();
         for (Piece blackPiece : Board.blackPieces) {
             for (int moveToX = 0; moveToX < 8; moveToX++) {
                 for (int moveToY = 0; moveToY < 8; moveToY++) {
@@ -93,7 +94,6 @@ public class BotLogic {
                 Board.board[blackMove.getStartX()][blackMove.getStartY()] = undoBlackPieceMove;
                 Board.board[blackMove.getMoveToX()][blackMove.getMoveToY()] = undoWhitePieceMove;
             }
-
         }
     }
 

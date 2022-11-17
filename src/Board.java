@@ -145,8 +145,8 @@ public class Board {
     }
 
     public static void sortPieces() {
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 if (Board.board[i][j] != null) {
                     if (Board.board[i][j].getColor().equals("white")) {
                         whitePieces.add(Board.board[i][j]);

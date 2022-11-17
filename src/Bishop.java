@@ -1,36 +1,36 @@
 public class Bishop extends Piece{
-    public Bishop(String color, int x, int y) {
-        super(color, x, y);
+    public Bishop(String color, int startX, int startY) {
+        super(color, startX, startY);
     }
 
     @Override
-    public boolean isPossibleMove(int startX, int startY, int moveToX, int moveToY) {
+    public boolean isPossibleMove(int moveToX, int moveToY) {
         boolean result;
-        if (moveToX < startX && moveToY < startY) {
-            if (startX - moveToX == startY - moveToY) {
-                result = Diagonal.checkNorthwest(startX, startY, moveToX, moveToY);
+        if (moveToX < getStartX() && moveToY < getStartY()) {
+            if (getStartX() - moveToX == getStartY() - moveToY) {
+                result = Diagonal.checkNorthwest(getStartX(), getStartY(), moveToX, moveToY);
             } else {
                 result = false;
             }
         }
-        else if (moveToX < startX && moveToY > startY) {
-            if (startX - moveToX == moveToY - startY) {
-                result = Diagonal.checkNortheast(startX, startY, moveToX, moveToY);
+        else if (moveToX < getStartX() && moveToY > getStartY()) {
+            if (getStartX() - moveToX == moveToY - getStartY()) {
+                result = Diagonal.checkNortheast(getStartX(), getStartY(), moveToX, moveToY);
             } else {
                 result = false;
             }
         }
-        else if(moveToX > startX && moveToY > startY) {
-            if (moveToX - startX == moveToY - startY) {
-                result = Diagonal.checkSoutheast(startX, startY, moveToX, moveToY);
+        else if(moveToX > getStartX() && moveToY > getStartY()) {
+            if (moveToX - getStartX() == moveToY - getStartY()) {
+                result = Diagonal.checkSoutheast(getStartX(), getStartY(), moveToX, moveToY);
             } else {
                 result = false;
             }
         }
-        else if(moveToX > startX && moveToY < startY)
+        else if(moveToX > getStartX() && moveToY < getStartY())
         {
-            if (moveToX - startX == startY - moveToY) {
-                result = Diagonal.checkSouthwest(startX, startY, moveToX, moveToY);
+            if (moveToX - getStartX() == getStartY() - moveToY) {
+                result = Diagonal.checkSouthwest(getStartX(), getStartY(), moveToX, moveToY);
             } else {
                 result = false;
             }
@@ -41,8 +41,8 @@ public class Bishop extends Piece{
         return result;
     }
     @Override
-    public void move(int startX, int startY, int x, int y) {
-        super.move(startX, startY, x, y);
+    public void move(int moveToX, int moveToY) {
+        super.move(moveToX, moveToY);
     }
 
     @Override

@@ -8,25 +8,26 @@ public class Rook extends Piece {
     public void setFirstMove(boolean firstMove) {
         isFirstMove = firstMove;
     }
-    public Rook(String color, int x, int y,boolean isFirstMove) {
-        super(color, x, y);
+
+    public Rook(String color, int startX, int startY, boolean isFirstMove) {
+        super(color, startX, startY);
         this.isFirstMove = isFirstMove;
     }
 
     @Override
-    public boolean isPossibleMove(int startX, int startY, int moveToX, int moveToY) {
+    public boolean isPossibleMove(int moveToX, int moveToY) {
         boolean result;
-        if (moveToX == startX && moveToY != startY) {
-            if (moveToY > startY) {
-                result = DirectionY.checkEast(startX, startY, moveToX, moveToY);
+        if (moveToX == getStartX() && moveToY != getStartY()) {
+            if (moveToY > getStartY()) {
+                result = DirectionY.checkEast(getStartX(), getStartY(), moveToX, moveToY);
             } else {
-                result = DirectionY.checkWest(startX, startY, moveToX, moveToY);
+                result = DirectionY.checkWest(getStartX(), getStartY(), moveToX, moveToY);
             }
-        } else if (moveToX != startX && moveToY == startY) {
-            if (moveToX > startX) {
-                result = DirectionX.checkSouth(startX, startY, moveToX, moveToY);
+        } else if (moveToX != getStartX() && moveToY == getStartY()) {
+            if (moveToX > getStartX()) {
+                result = DirectionX.checkSouth(getStartX(), getStartY(), moveToX, moveToY);
             } else {
-                result = DirectionX.checkNorth(startX, startY, moveToX, moveToY);
+                result = DirectionX.checkNorth(getStartX(), getStartY(), moveToX, moveToY);
             }
         } else {
             result = false;
@@ -44,8 +45,8 @@ public class Rook extends Piece {
     }
 
     @Override
-    public void move(int startX, int startY, int x, int y) {
-        super.move(startX, startY, x, y);
+    public void move(int x, int y) {
+        super.move(x, y);
         if (isFirstMove()) {
                 setFirstMove(false);
             }
