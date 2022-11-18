@@ -21,6 +21,12 @@ public class Knight extends Piece {
     public void move(int moveToX, int moveToY) {
         super.move(moveToX,moveToY);
     }
+
+    @Override
+    public void testMove(int moveToX, int moveToY) {
+        super.testMove(moveToX, moveToY);
+    }
+
     @Override
     public String toString() {
         if(super.getColor().equals("white")){

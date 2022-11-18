@@ -1,8 +1,8 @@
 import jdk.jshell.Diag;
 
 public class Queen extends Piece {
-    public Queen(String color, int x, int y) {
-        super(color, x, y);
+    public Queen(String color, int startX, int startY) {
+        super(color, startX, startY);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class Queen extends Piece {
     }
 
     private boolean checkNorthDirections(int moveToX, int moveToY) {
-        if (moveToY < getStartX()) {
+        if (moveToY < getStartY()) {
             if (getStartX() - moveToX == getStartY() - moveToY) {
                 return Diagonal.checkNorthwest(getStartX(), getStartY(), moveToX, moveToY);
             } else {
@@ -68,9 +68,15 @@ public class Queen extends Piece {
             return false;
         }
     }
+
     @Override
-    public void move(int x, int y) {
-        super.move(x,y);
+    public void testMove(int moveToX, int moveToY) {
+        super.testMove(moveToX, moveToY);
+    }
+
+    @Override
+    public void move(int moveToX, int moveToY) {
+        super.move(moveToX, moveToY);
     }
 
     @Override

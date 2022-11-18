@@ -5,6 +5,7 @@ public class Menu {
         System.out.println("CHESS \nby Stanislav Haldarov and Belis Aliosmanova");
         chooseDifficulty();
     }
+
     public static void chooseDifficulty() {
         Scanner scan = new Scanner(System.in);
         System.out.println("The options are -> easy and difficult");
@@ -36,7 +37,13 @@ public class Menu {
         System.out.print("Enter the column/letter from a to h/ ");
         char newColumn = scan.next().charAt(0);
         int newColumnNumber = convertColumnToInt(newColumn);
-        Board.board[rowNumber][columnNumber].move(rowNumber, columnNumber, newRowNumber, newColumnNumber);
+        if(Board.board[rowNumber][columnNumber].isPossibleMove(newRowNumber, newColumnNumber)) {
+            Board.board[rowNumber][columnNumber].move(newRowNumber, newColumnNumber);
+        }
+        else{
+            System.out.println("Illegal move!");
+            enterPlayersChoice();
+        }
     }
 
     public static void inGame(boolean isRandom) {
@@ -48,29 +55,29 @@ public class Menu {
         while (!isTheGameOver) {
             enterPlayersChoice();
             board.printBoard();
-            for (Piece blackPiece: Board.blackPieces) {
+            for (Piece blackPiece : Board.blackPieces) {
                 isTheGameOver = true;
-                if(blackPiece instanceof King){
+                if (blackPiece instanceof King) {
                     isTheGameOver = false;
                     break;
                 }
             }
-            if(isTheGameOver){
+            if (isTheGameOver) {
                 System.out.println("CHECKMATE! PLAYER WINS!");
                 break;
             }
             Board.sortPieces();
             PossibleMoves botMove = BotLogic.makeMove(isRandom);
-            Board.board[botMove.getStartX()][botMove.getStartY()].move(botMove.getStartX(),botMove.getStartY(), botMove.getMoveToX(), botMove.getMoveToY());
+            Board.board[botMove.getStartX()][botMove.getStartY()].move(botMove.getMoveToX(), botMove.getMoveToY());
             board.printBoard();
-            for (Piece whitePiece: Board.whitePieces) {
+            for (Piece whitePiece : Board.whitePieces) {
                 isTheGameOver = true;
-                if(whitePiece instanceof King){
+                if (whitePiece instanceof King) {
                     isTheGameOver = false;
                     break;
                 }
             }
-            if(isTheGameOver){
+            if (isTheGameOver) {
                 System.out.println("CHECKMATE! CPU WINS!");
                 break;
             }
@@ -109,7 +116,8 @@ public class Menu {
             }
         }
     }
-    public static int convertRow(int row){
+
+    public static int convertRow(int row) {
         switch (row) {
             case 1 -> {
                 return 7;
