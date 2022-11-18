@@ -3,19 +3,29 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public abstract class Piece {
-    private String color;
-    private int startX, startY;
+    protected String color;
+    protected int startX, startY;
+
     public abstract boolean isPossibleMove(int moveToX, int moveToY);
 
     public abstract String toString();
-    public void move(int x, int y){
-        boolean isPossibleMove = isPossibleMove(x, y);
+    public void move(int moveToX, int moveToY){
+        boolean isPossibleMove = isPossibleMove(moveToX, moveToY);
         if (isPossibleMove) {
-            Board.board[x][y] = Board.board[startX][startY];
-            Board.board[startX][startY] = null;
+            Board.board[moveToX][moveToY] = Board.board[getStartX()][getStartY()];
+            Board.board[getStartX()][getStartY()] = null;
+            setStartX(moveToX);
+            setStartY(moveToY);
         }
     }
-
+    public void testMove(int moveToX,int moveToY)
+    {
+        boolean isPossibleMove = isPossibleMove(moveToX, moveToY);
+        if (isPossibleMove) {
+            Board.board[moveToX][moveToY] = Board.board[getStartX()][getStartY()];
+            Board.board[getStartX()][getStartY()] = null;
+        }
+    }
 
     public Piece(String color, int startX, int startY) {
         this.color = color;

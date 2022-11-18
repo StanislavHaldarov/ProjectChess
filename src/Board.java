@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Board {
-    static Piece board[][] = new Piece[8][8];
+    static Piece[][] board = new Piece[8][8];
     static ArrayList<Piece> whitePieces = new ArrayList<Piece>();
     static ArrayList<Piece> blackPieces = new ArrayList<Piece>();
     //qqq
@@ -121,8 +121,8 @@ public class Board {
         board[0][4] = new King("black", 0, 4, true);
         board[0][0] = new Rook("black", 0, 0, true);
         board[0][7] = new Rook("black", 0, 7, true);
-        board[0][2] = new Bishop("black", 0, 1);
-        board[0][5] = new Bishop("black", 0, 6);
+        board[0][2] = new Bishop("black", 0, 2);
+        board[0][5] = new Bishop("black", 0, 5);
         // white
 //        board[7][1] = new Knight("white", 6, 7);
 //        board[7][6] = new Knight("white", 6, 7);
@@ -138,13 +138,14 @@ public class Board {
         board[7][4] = new King("white", 7, 4, true);
         board[7][0] = new Rook("white", 7, 0, true);
         board[7][7] = new Rook("white", 7, 7, true);
-        board[7][2] = new Bishop("white", 7, 1);
-        board[7][5] = new Bishop("white", 7, 6);
+        board[7][2] = new Bishop("white", 7, 2);
+        board[7][5] = new Bishop("white", 7, 5);
         sortPieces();
-
     }
 
     public static void sortPieces() {
+        blackPieces.clear();
+        whitePieces.clear();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (Board.board[i][j] != null) {
