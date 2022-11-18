@@ -23,11 +23,16 @@ public class BotLogic {
         for (Piece whitePiece : Board.whitePieces) {
             for (int moveToX = 0; moveToX < 8; moveToX++) {
                 for (int moveToY = 0; moveToY < 8; moveToY++) {
-                    if (Board.board[whitePiece.getX()][whitePiece.getY()] != null) {
-                        if (Board.board[whitePiece.getX()][whitePiece.getY()].isPossibleMove(whitePiece.getX(), whitePiece.getY(), moveToX, moveToY)) {
+                    if (Board.board[whitePiece.getStartX()][whitePiece.getStartY()] != null) {
+                        if (Board.board[whitePiece.getStartX()][whitePiece.getStartY()].isPossibleMove(moveToX, moveToY)) {
                             if (Board.board[moveToX][moveToY] != null) {
                                 if (newValue < returnMoveValue(moveToX, moveToY)) {
                                     newValue = returnMoveValue(moveToX, moveToY);
+                                }
+                                else if ((Board.board[moveToX][moveToY] == null && whitePiece instanceof Pawn) && (whitePiece.getStartX() != moveToX && whitePiece.getStartY() != moveToY)) {
+                                    if (newValue < 10) {
+                                        newValue = 10;
+                                    }
                                 }
                             }
                         }
@@ -39,15 +44,16 @@ public class BotLogic {
     }
 
     public static void addBlackPossibleMoves(ArrayList<PossibleMoves> blackMoves) {
-        Board.sortPieces();
         for (Piece blackPiece : Board.blackPieces) {
             for (int moveToX = 0; moveToX < 8; moveToX++) {
                 for (int moveToY = 0; moveToY < 8; moveToY++) {
-                    if (Board.board[blackPiece.getX()][blackPiece.getY()] != null) {
-                        if (Board.board[blackPiece.getX()][blackPiece.getY()].isPossibleMove(blackPiece.getX(), blackPiece.getY(), moveToX, moveToY)) {
-                            blackMoves.add(new PossibleMoves(blackPiece.getX(), blackPiece.getY(), moveToX, moveToY, 0));
+                    if (Board.board[blackPiece.getStartX()][blackPiece.getStartY()] != null) {
+                        if (Board.board[blackPiece.getStartX()][blackPiece.getStartY()].isPossibleMove(moveToX, moveToY)) {
+                            blackMoves.add(new PossibleMoves(blackPiece.getStartX(), blackPiece.getStartY(), moveToX, moveToY, 0));
                             if (Board.board[moveToX][moveToY] != null) {
                                 blackMoves.get(blackMoves.size() - 1).setValue(returnMoveValue(moveToX, moveToY));
+                            } else if ((Board.board[moveToX][moveToY] == null && blackPiece instanceof Pawn) && (blackPiece.getStartX() != moveToX && blackPiece.getStartY() != moveToY)) {
+                                blackMoves.get(blackMoves.size() - 1).setValue(10);
                             }
                         }
                     }
@@ -73,7 +79,7 @@ public class BotLogic {
             }
         }
         Random rnd = new Random();
-        return bestMoves.get(rnd.nextInt(bestMoves.size() - 1));
+        return bestMoves.get(rnd.nextInt(bestMoves.size()));
     }
 
     public static PossibleMoves makeRandomMove(ArrayList<PossibleMoves> blackMoves) {
@@ -83,16 +89,23 @@ public class BotLogic {
 
     public static void setBlackPossibleMovesValues(ArrayList<PossibleMoves> blackMoves) {
         for (PossibleMoves blackMove : blackMoves) {
-            if (Board.board[blackMove.getStartX()][blackMove.getStartY()].isPossibleMove(blackMove.getStartX(), blackMove.getStartY(), blackMove.getMoveToX(), blackMove.getMoveToY())) {
+            if (Board.board[blackMove.getStartX()][blackMove.getStartY()].isPossibleMove(blackMove.getMoveToX(), blackMove.getMoveToY())) {
                 Piece undoBlackPieceMove = Board.board[blackMove.getStartX()][blackMove.getStartY()];
                 Piece undoWhitePieceMove = null;
                 if (Board.board[blackMove.getMoveToX()][blackMove.getMoveToY()] != null) {
                     undoWhitePieceMove = Board.board[blackMove.getMoveToX()][blackMove.getMoveToY()];
                 }
-                Board.board[blackMove.getStartX()][blackMove.getStartY()].move(blackMove.getStartX(), blackMove.getStartX(), blackMove.getMoveToX(), blackMove.getMoveToY());
+                int x = blackMove.getStartX();
+                int y = blackMove.getStartY();
+                Board.board[blackMove.getStartX()][blackMove.getStartY()].setStartX(blackMove.getMoveToX());
+                Board.board[blackMove.getStartX()][blackMove.getStartY()].setStartY(blackMove.getMoveToY());
+                Board.board[blackMove.getStartX()][blackMove.getStartY()].testMove(blackMove.getMoveToX(), blackMove.getMoveToY());
                 blackMove.setValue(blackMove.getValue() - calculateNextWhiteMoveValue());
+                Board.board[blackMove.getStartX()][blackMove.getStartY()].setStartX(x);
+                Board.board[blackMove.getStartX()][blackMove.getStartY()].setStartY(y);
                 Board.board[blackMove.getStartX()][blackMove.getStartY()] = undoBlackPieceMove;
                 Board.board[blackMove.getMoveToX()][blackMove.getMoveToY()] = undoWhitePieceMove;
+
             }
         }
     }

@@ -1,48 +1,51 @@
-public class Bishop extends Piece{
+public class Bishop extends Piece {
     public Bishop(String color, int startX, int startY) {
         super(color, startX, startY);
     }
 
     @Override
     public boolean isPossibleMove(int moveToX, int moveToY) {
-        boolean result;
-        if (moveToX < getStartX() && moveToY < getStartY()) {
-            if (getStartX() - moveToX == getStartY() - moveToY) {
-                result = Diagonal.checkNorthwest(getStartX(), getStartY(), moveToX, moveToY);
-            } else {
-                result = false;
-            }
+        if (getStartX() < moveToX) {
+            return checkSouthDiagonals(moveToX, moveToY);
+        } else if (getStartX() > moveToX) {
+            return checkNorthDiagonals(moveToX, moveToY);
         }
-        else if (moveToX < getStartX() && moveToY > getStartY()) {
-            if (getStartX() - moveToX == moveToY - getStartY()) {
-                result = Diagonal.checkNortheast(getStartX(), getStartY(), moveToX, moveToY);
-            } else {
-                result = false;
-            }
-        }
-        else if(moveToX > getStartX() && moveToY > getStartY()) {
+        return false;
+    }
+
+    private boolean checkSouthDiagonals(int moveToX, int moveToY) {
+        if (moveToY > getStartY()) {
             if (moveToX - getStartX() == moveToY - getStartY()) {
-                result = Diagonal.checkSoutheast(getStartX(), getStartY(), moveToX, moveToY);
-            } else {
-                result = false;
+                return Diagonal.checkSoutheast(getStartX(), getStartY(), moveToX, moveToY);
             }
-        }
-        else if(moveToX > getStartX() && moveToY < getStartY())
-        {
+        } else if (moveToY < getStartY()) {
             if (moveToX - getStartX() == getStartY() - moveToY) {
-                result = Diagonal.checkSouthwest(getStartX(), getStartY(), moveToX, moveToY);
-            } else {
-                result = false;
+                return Diagonal.checkSouthwest(getStartX(), getStartY(), moveToX, moveToY);
             }
         }
-        else{
-            result = false;
+        return false;
+    }
+
+    private boolean checkNorthDiagonals(int moveToX, int moveToY) {
+        if (moveToY < getStartY()) {
+            if (getStartX() - moveToX == getStartY() - moveToY) {
+                return Diagonal.checkNorthwest(getStartX(), getStartY(), moveToX, moveToY);
+            }
+        } else if (moveToY > getStartY()) {
+            if (getStartX() - moveToX == moveToY - getStartY()) {
+                return Diagonal.checkNortheast(getStartX(), getStartY(), moveToX, moveToY);
+            }
         }
-        return result;
+        return false;
     }
     @Override
     public void move(int moveToX, int moveToY) {
         super.move(moveToX, moveToY);
+    }
+
+    @Override
+    public void testMove(int moveToX, int moveToY) {
+        super.testMove(moveToX, moveToY);
     }
 
     @Override

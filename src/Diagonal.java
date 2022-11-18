@@ -45,7 +45,7 @@ public interface Diagonal {
                 return Pathfinders.checkSoutheastPath(startX,startY,moveToX);
             } else {
                 if (!(Board.board[startX][startY].getColor().equals(Board.board[moveToX][moveToY].getColor()))) {
-                    return Pathfinders.checkSoutheastPath(startX, startY, moveToX);
+                        return Pathfinders.checkSoutheastPath(startX, startY, moveToX);
                 }
             }
         }
