@@ -21,6 +21,8 @@ public class Menu {
     }
 
     public static void enterPlayersChoice() {
+        char[] yCoordinates = {'a','b','c','d','e','f','g','h'};
+        char[] xCoordinates = {'1','2','3','4','5','6','7','8'};
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter the coordinates of the piece you want to move! ");
         System.out.print("Enter the row/number from 1 to 8/->  ");
@@ -55,17 +57,6 @@ public class Menu {
         while (!isTheGameOver) {
             enterPlayersChoice();
             board.printBoard();
-            for (Piece blackPiece : Board.blackPieces) {
-                isTheGameOver = true;
-                if (blackPiece instanceof King) {
-                    isTheGameOver = false;
-                    break;
-                }
-            }
-            if (isTheGameOver) {
-                System.out.println("CHECKMATE! PLAYER WINS!");
-                break;
-            }
             Board.sortPieces();
             PossibleMoves botMove = BotLogic.makeMove(isRandom);
             Board.board[botMove.getStartX()][botMove.getStartY()].move(botMove.getMoveToX(), botMove.getMoveToY());
@@ -76,10 +67,6 @@ public class Menu {
                     isTheGameOver = false;
                     break;
                 }
-            }
-            if (isTheGameOver) {
-                System.out.println("CHECKMATE! CPU WINS!");
-                break;
             }
             Board.sortPieces();
         }
