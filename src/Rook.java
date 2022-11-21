@@ -16,23 +16,28 @@ public class Rook extends Piece {
 
     @Override
     public boolean isPossibleMove(int moveToX, int moveToY) {
-        boolean result;
         if (moveToX == getStartX() && moveToY != getStartY()) {
             if (moveToY > getStartY()) {
-                result = DirectionY.checkEast(getStartX(), getStartY(), moveToX, moveToY);
+                if (DirectionY.checkEast(getStartX(), getStartY(), moveToX, moveToY)) {
+                    return !Checkmate.isInCheck(getColor(), getStartX(), getStartY(), moveToX, moveToY);
+                }
             } else {
-                result = DirectionY.checkWest(getStartX(), getStartY(), moveToX, moveToY);
+                if (DirectionY.checkWest(getStartX(), getStartY(), moveToX, moveToY)) {
+                    return !Checkmate.isInCheck(getColor(), getStartX(), getStartY(), moveToX, moveToY);
+                }
             }
         } else if (moveToX != getStartX() && moveToY == getStartY()) {
             if (moveToX > getStartX()) {
-                result = DirectionX.checkSouth(getStartX(), getStartY(), moveToX, moveToY);
+                if (DirectionX.checkSouth(getStartX(), getStartY(), moveToX, moveToY)) {
+                    return !Checkmate.isInCheck(getColor(), getStartX(), getStartY(), moveToX, moveToY);
+                }
             } else {
-                result = DirectionX.checkNorth(getStartX(), getStartY(), moveToX, moveToY);
+                if (DirectionX.checkNorth(getStartX(), getStartY(), moveToX, moveToY)) {
+                    return !Checkmate.isInCheck(getColor(), getStartX(), getStartY(), moveToX, moveToY);
+                }
             }
-        } else {
-            result = false;
         }
-        return result;
+        return false;
     }
 
     @Override
@@ -53,8 +58,8 @@ public class Rook extends Piece {
     public void move(int moveToX, int moveToY) {
         super.move(moveToX, moveToY);
         if (isFirstMove()) {
-                setFirstMove(false);
-            }
+            setFirstMove(false);
+        }
 
     }
 
