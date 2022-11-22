@@ -11,11 +11,11 @@ public class Knight extends Piece {
                 || ((getStartX() - 2 == moveToX) && (getStartY() - 1 == moveToY)) || ((getStartX() - 1 == moveToX) && (getStartY() - 2 == moveToY)) || ((getStartX() + 1 == moveToX) && (getStartY() - 2 == moveToY)) || ((getStartX() + 2 == moveToX) && (getStartY() - 1 == moveToY));
         if ((Board.board[moveToX][moveToY] == null)) {
             if(result){
-                return !Checkmate.isInCheck(getColor(),getStartX(), getStartY(), moveToX,moveToY);
+                return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
             }
         } else if (!Objects.equals(Board.board[moveToX][moveToY].getColor(), Board.board[getStartX()][getStartY()].getColor())) {
             if(result){
-                return !Checkmate.isInCheck(getColor(),getStartX(), getStartY(), moveToX,moveToY);
+                return Checkmate.isPossibleMove2(getColor(),moveToX,moveToY);
             }
         }
         return false;

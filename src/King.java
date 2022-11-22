@@ -1,10 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class King extends Piece {
     private boolean isFirstMove;
-    static boolean inCheck = false;
-
     public boolean isFirstMove() {
         return isFirstMove;
     }
@@ -20,34 +15,27 @@ public class King extends Piece {
 
     @Override
     public boolean isPossibleMove(int moveToX, int moveToY) {
-        boolean result;
         if ((moveToX == getStartX() - 1 || moveToX == getStartX() || moveToX == getStartX() + 1) && (moveToY == getStartY() - 1 || moveToY == getStartY() || moveToY == getStartY() + 1)) {
             if (moveToX < getStartX()) {
-                result = checkNorthDirectionsKing(moveToX, moveToY);
+                if(checkNorthDirectionsKing(moveToX, moveToY)){
+                    return Checkmate.isPossibleMoveKing(getColor(), getStartX(), getStartY(), moveToX, moveToY);
+                }
             } else if (moveToX > getStartX()) {
-                result = checkSouthDirectionsKing(moveToX, moveToY);
+                if(checkSouthDirectionsKing(moveToX, moveToY)){
+                    return Checkmate.isPossibleMoveKing(getColor(), getStartX(), getStartY(), moveToX, moveToY);
+                }
             } else {
-                result = checkHorizontalDirectionsKing(moveToX, moveToY);
+                if(checkHorizontalDirectionsKing(moveToX, moveToY)){
+                    return Checkmate.isPossibleMoveKing(getColor(), getStartX(), getStartY(), moveToX, moveToY);
+                }
             }
         } else if ((moveToY == getStartY() + 2 || moveToY == getStartY() - 2) && isFirstMove()) {
-            result = checkKingCastling(moveToY);
-
-        } else {
-            result = false;
+            if(checkKingCastling(moveToY)){
+                return Checkmate.isPossibleMoveKing(getColor(), getStartX(), getStartY(), moveToX, moveToY);
+            }
         }
-//        if (inCheck) {
-//            if (this.isInCheckmate()) {
-//                return false;
-//            }
-//        }
-//        result = result && !(inCheck);
-        return result;
+        return false;
     }
-
-
-
-
-
     public boolean isInCheckmate() {
         for (int moveToX = 0; moveToX < 8; moveToX++) {
             for (int moveToY = 0; moveToY < 8; moveToY++) {

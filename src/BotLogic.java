@@ -58,7 +58,6 @@ public class BotLogic {
                             }
                         }
                     }
-
                 }
             }
         }
@@ -103,11 +102,10 @@ public class BotLogic {
                 Board.board[blackMove.getStartX()][blackMove.getStartY()].setStartY(blackMove.getMoveToY());
                 Board.board[blackMove.getStartX()][blackMove.getStartY()].testMove(blackMove.getMoveToX(), blackMove.getMoveToY());
                 blackMove.setValue(blackMove.getValue() - calculateNextWhiteMoveValue());
+                Board.board[blackMove.getStartX()][blackMove.getStartY()] = undoBlackPieceMove;
                 Board.board[blackMove.getStartX()][blackMove.getStartY()].setStartX(x);
                 Board.board[blackMove.getStartX()][blackMove.getStartY()].setStartY(y);
-                Board.board[blackMove.getStartX()][blackMove.getStartY()] = undoBlackPieceMove;
                 Board.board[blackMove.getMoveToX()][blackMove.getMoveToY()] = undoWhitePieceMove;
-
             }
         }
     }
