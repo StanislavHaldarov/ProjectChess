@@ -28,16 +28,19 @@ public class BotLogic {
                             if (Board.board[moveToX][moveToY] != null) {
                                 if (newValue < returnMoveValue(moveToX, moveToY)) {
                                     newValue = returnMoveValue(moveToX, moveToY);
-                                }
-                                else if ((Board.board[moveToX][moveToY] == null && whitePiece instanceof Pawn) && (whitePiece.getStartX() != moveToX && whitePiece.getStartY() != moveToY)) {
-                                    if (newValue < 10) {
-                                        newValue = 10;
+                                } else if (Board.board[moveToX][moveToY] == null && whitePiece instanceof Pawn) {
+                                    if (whitePiece.getStartX() != moveToX && whitePiece.getStartY() != moveToY) {
+                                        if (newValue < 10) {
+                                            newValue = 10;
+                                        }
                                     }
+
                                 }
                             }
                         }
                     }
                 }
+
             }
         }
         return newValue;
@@ -52,8 +55,6 @@ public class BotLogic {
                             blackMoves.add(new PossibleMoves(blackPiece.getStartX(), blackPiece.getStartY(), moveToX, moveToY, 0));
                             if (Board.board[moveToX][moveToY] != null) {
                                 blackMoves.get(blackMoves.size() - 1).setValue(returnMoveValue(moveToX, moveToY));
-                            } else if ((Board.board[moveToX][moveToY] == null && blackPiece instanceof Pawn) && (blackPiece.getStartX() != moveToX && blackPiece.getStartY() != moveToY)) {
-                                blackMoves.get(blackMoves.size() - 1).setValue(10);
                             }
                         }
                     }
@@ -95,6 +96,7 @@ public class BotLogic {
                 if (Board.board[blackMove.getMoveToX()][blackMove.getMoveToY()] != null) {
                     undoWhitePieceMove = Board.board[blackMove.getMoveToX()][blackMove.getMoveToY()];
                 }
+
                 int x = blackMove.getStartX();
                 int y = blackMove.getStartY();
                 Board.board[blackMove.getStartX()][blackMove.getStartY()].setStartX(blackMove.getMoveToX());
