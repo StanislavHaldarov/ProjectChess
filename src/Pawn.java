@@ -33,23 +33,39 @@ public class Pawn extends Piece {
     public boolean isPossibleMove(int moveToX, int moveToY) {
         if (getColor().equalsIgnoreCase("white")) {
             if (moveToX == getStartX() - 1 && moveToY == getStartY() - 1) {
-                if(checkWhiteWestDiagonal(moveToX, moveToY)){return !Checkmate.isInCheck(getColor(),getStartX(), getStartY(), moveToX,moveToY);}
+                if (checkWhiteWestDiagonal(moveToX, moveToY)) {
+                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
+                }
             } else if (moveToX == getStartX() - 1 && moveToY == getStartY() + 1) {
-                if(checkWhiteEastDiagonal(moveToX, moveToY)){return !Checkmate.isInCheck(getColor(),getStartX(), getStartY(), moveToX,moveToY);}
+                if (checkWhiteEastDiagonal(moveToX, moveToY)) {
+                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
+                }
             } else if (moveToX == getStartX() - 2 && moveToY == getStartY()) {
-                if(checkWhiteIfFirstMove(moveToX)){return !Checkmate.isInCheck(getColor(),getStartX(), getStartY(), moveToX,moveToY);}
+                if (checkWhiteIfFirstMove(moveToX)) {
+                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
+                }
             } else if (moveToX == getStartX() - 1 && moveToY == getStartY()) {
-                if(checkWhiteFront(moveToX)){return !Checkmate.isInCheck(getColor(),getStartX(), getStartY(), moveToX,moveToY);}
+                if (checkWhiteFront(moveToX)) {
+                    return Checkmate.isPossibleMove2(getColor(),  moveToX, moveToY);
+                }
             }
         } else {
             if (moveToX == getStartX() + 1 && moveToY == getStartY() - 1) {
-                if(checkBlackWestDiagonal(moveToX, moveToY)){return !Checkmate.isInCheck(getColor(),getStartX(), getStartY(), moveToX,moveToY);}
+                if (checkBlackWestDiagonal(moveToX, moveToY)) {
+                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
+                }
             } else if (moveToX == getStartX() + 1 && moveToY == getStartY() + 1) {
-                if(checkBlackEastDiagonal(moveToX, moveToY)){return !Checkmate.isInCheck(getColor(),getStartX(), getStartY(), moveToX,moveToY);}
+                if (checkBlackEastDiagonal(moveToX, moveToY)) {
+                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
+                }
             } else if (moveToX == getStartX() + 2 && moveToY == getStartY()) {
-                if(checkBlackIfFirstMove(moveToX)){return !Checkmate.isInCheck(getColor(),getStartX(), getStartY(), moveToX,moveToY);}
+                if (checkBlackIfFirstMove(moveToX)) {
+                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
+                }
             } else if (moveToX == getStartX() + 1 && moveToY == getStartY()) {
-                if(checkBlackFront(moveToX)){return !Checkmate.isInCheck(getColor(),getStartX(), getStartY(), moveToX,moveToY);}
+                if (checkBlackFront(moveToX)) {
+                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
+                }
             }
         }
         return false;
@@ -101,7 +117,7 @@ public class Pawn extends Piece {
             if (Board.board[moveToX][moveToY] != null) {
                 return !(Board.board[moveToX][moveToY].getColor().equalsIgnoreCase("white"));
             } else {
-                if(getStartX() == 3) {
+                if (getStartX() == 3) {
                     if (Board.board[getStartX()][getStartY() - 1] != null) {
                         if (Board.board[getStartX()][getStartY() - 1] instanceof Pawn) {
                             return Board.board[getStartX()][getStartY() - 1].getColor().equalsIgnoreCase("black") && ((Pawn) Board.board[getStartX()][getStartY() - 1]).getMovesCount() == 1;
@@ -149,30 +165,28 @@ public class Pawn extends Piece {
         }
         return false;
     }
-    private void checkEnPassant()
-    {
-        if (Board.board[getStartX()+1][getStartY()] != null) {
-            if ((Board.board[getStartX()+1][getStartY()].getColor().equalsIgnoreCase("black") && ((Pawn) Board.board[getStartX()+1][getStartY()]).getMovesCount() == 1)) {
-                Board.board[getStartX()+1][getStartY()] = null;
+
+    private void checkEnPassant() {
+        if (Board.board[getStartX() + 1][getStartY()] != null) {
+            if ((Board.board[getStartX() + 1][getStartY()].getColor().equalsIgnoreCase("black") && ((Pawn) Board.board[getStartX() + 1][getStartY()]).getMovesCount() == 1)) {
+                Board.board[getStartX() + 1][getStartY()] = null;
             }
         }
     }
+
     public void changePawn() {
         Piece piece = askUserToChange();
         Board.board[getStartX()][getStartY()] = piece;
     }
 
     private void promotePawn(int moveToX, int moveToY) {
-        if(getColor().equalsIgnoreCase("white"))
-        {
-            if (moveToX==0) {
+        if (getColor().equalsIgnoreCase("white")) {
+            if (moveToX == 0) {
                 changePawn();
             }
-        }
-        else{
-            if(moveToX==7)
-            {
-                Board.board[moveToX][moveToY] = new Queen("black",moveToX,moveToY);
+        } else {
+            if (moveToX == 7) {
+                Board.board[moveToX][moveToY] = new Queen("black", moveToX, moveToY);
             }
         }
     }
@@ -219,8 +233,9 @@ public class Pawn extends Piece {
             return "bPn";
         }
     }
-    public void moveWithRunnable(int moveToX, int moveToY, Runnable callback){
-        if (isPossibleMove(moveToX,moveToY)) {
+
+    public void moveWithRunnable(int moveToX, int moveToY, Runnable callback) {
+        if (isPossibleMove(moveToX, moveToY)) {
             Board.board[moveToX][moveToY] = Board.board[getStartX()][getStartY()];
             Board.board[getStartX()][getStartY()] = null;
             setStartX(moveToX);
@@ -228,17 +243,18 @@ public class Pawn extends Piece {
             callback.run();
         }
     }
+
     @Override
     public void move(int moveToX, int moveToY) {
         moveWithRunnable(moveToX, moveToY, () -> {
-            promotePawn(moveToX,moveToY);
+            promotePawn(moveToX, moveToY);
         });
-        if(getColor().equalsIgnoreCase("white")) {
+        if (getColor().equalsIgnoreCase("white")) {
             checkEnPassant();
         }
         setMovesCount(movesCount + 1);
         if (isFirstMove()) {
-                setFirstMove(false);
-            }
+            setFirstMove(false);
+        }
     }
 }

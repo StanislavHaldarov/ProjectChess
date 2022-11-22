@@ -7,11 +7,11 @@ public class Bishop extends Piece {
     public boolean isPossibleMove(int moveToX, int moveToY) {
         if (getStartX() < moveToX) {
             if(checkSouthDiagonals(moveToX, moveToY)){
-                return !Checkmate.isInCheck(getColor(),getStartX(), getStartY(), moveToX,moveToY);
+                return Checkmate.isPossibleMove2(getColor(),moveToX,moveToY);
             }
         } else if (getStartX() > moveToX) {
             if(checkNorthDiagonals(moveToX, moveToY)){
-                return !Checkmate.isInCheck(getColor(),getStartX(), getStartY(), moveToX,moveToY);
+                return Checkmate.isPossibleMove2(getColor(),moveToX,moveToY);
             }
 
         }

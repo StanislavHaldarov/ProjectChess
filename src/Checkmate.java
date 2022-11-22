@@ -1,25 +1,27 @@
 public interface Checkmate {
-    static boolean isInCheck(String color, int startX, int startY, int moveToX, int moveToY)
-    {
-        boolean result;
-        Piece undoMove = Board.board[startX][startY];
-        Piece undoKill = null;
-        if (Board.board[moveToX][moveToY] != null) {
-            undoKill = Board.board[moveToX][moveToY];
+    static boolean isPossibleMoveKing(String color, int stX, int stY, int mvX, int mvY) {
+        Piece undoKingMove = Board.board[stX][stY];
+        Piece undoKillMove = null;
+        if (Board.board[stX][stY] != null) {
+            undoKillMove = Board.board[mvX][mvY];
         }
-        Board.board[startX][startY] = null;
-        Board.board[moveToX][moveToY] = undoMove;
-        result = isCheckmate(color);
-        Board.board[startX][startY] = undoMove;
-        Board.board[moveToX][moveToY] = undoKill;
+        Board.board[stX][stY].setStartX(mvX);
+        Board.board[mvX][mvY].setStartY(mvY);
+        Board.board[mvX][mvY] = Board.board[stX][stY];
+        Board.board[stX][stY] = null;
+        boolean result = isTheKingInCheck(color);
+        Board.board[stX][stY] = undoKingMove;
+        Board.board[stX][stY].setStartX(stX);
+        Board.board[stX][stY].setStartY(stY);
+        Board.board[mvX][mvY] = undoKillMove;
         return result;
     }
-    static boolean isCheckmate(String color)
-    {
+
+    static boolean isTheKingInCheck(String color) {
         for (int startX = 0; startX < 8; startX++) {
             for (int startY = 0; startY < 8; startY++) {
-                if(Board.board[startX][startY] != null){
-                    if(!Board.board[startX][startY].getColor().equalsIgnoreCase(color)) {
+                if (Board.board[startX][startY] != null) {
+                    if (!Board.board[startX][startY].getColor().equalsIgnoreCase(color)) {
                         for (int moveToX = 0; moveToX < 8; moveToX++) {
                             for (int moveToY = 0; moveToY < 8; moveToY++) {
                                 if (Board.board[startX][startY].isPossibleMove(moveToX, moveToY)) {
@@ -30,10 +32,46 @@ public interface Checkmate {
                             }
                         }
                     }
-
                 }
             }
         }
         return false;
+    }
+
+    static boolean isPossibleMove2(String color, int mvX, int mvY) {
+        boolean inCheck = false;
+        int enemiesCount = 0;
+        boolean isSavable = false;
+        for (int startX = 0; startX < 8; startX++) {
+            for (int startY = 0; startY < 8; startY++) {
+                if (Board.board[startX][startY] != null) {
+                    if (!Board.board[startX][startY].getColor().equalsIgnoreCase(color)) {
+                        for (int moveToX = 0; moveToX < 8; moveToX++) {
+                            for (int moveToY = 0; moveToY < 8; moveToY++) {
+                                if (Board.board[startX][startY].isPossibleMove(moveToX, moveToY)) {
+                                    if (Board.board[moveToX][moveToY] instanceof King) {
+                                        inCheck = true;
+                                        enemiesCount++;
+                                        if (Board.board[startX][startY].getStartX() == mvX && Board.board[startX][startY].getStartY() == mvY) {
+                                            isSavable = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return checkIfTheKingIsInCheck(enemiesCount, inCheck, isSavable);
+    }
+
+    static boolean checkIfTheKingIsInCheck(int enemiesCount, boolean inCheck, boolean isSavable) {
+        if (inCheck) {
+            if (enemiesCount == 1) {
+                inCheck = isSavable;
+            }
+        }
+        return inCheck;
     }
 }
