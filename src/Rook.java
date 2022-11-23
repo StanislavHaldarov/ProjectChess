@@ -18,23 +18,15 @@ public class Rook extends Piece {
     public boolean isPossibleMove(int moveToX, int moveToY) {
         if (moveToX == getStartX() && moveToY != getStartY()) {
             if (moveToY > getStartY()) {
-                if (DirectionY.checkEast(getStartX(), getStartY(), moveToX, moveToY)) {
-                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-                }
+                return DirectionY.checkEast(getStartX(), getStartY(), moveToX, moveToY);
             } else {
-                if (DirectionY.checkWest(getStartX(), getStartY(), moveToX, moveToY)) {
-                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-                }
+                return DirectionY.checkWest(getStartX(), getStartY(), moveToX, moveToY);
             }
         } else if (moveToX != getStartX() && moveToY == getStartY()) {
             if (moveToX > getStartX()) {
-                if (DirectionX.checkSouth(getStartX(), getStartY(), moveToX, moveToY)) {
-                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-                }
+                return DirectionX.checkSouth(getStartX(), getStartY(), moveToX, moveToY);
             } else {
-                if (DirectionX.checkNorth(getStartX(), getStartY(), moveToX, moveToY)) {
-                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-                }
+                return DirectionX.checkNorth(getStartX(), getStartY(), moveToX, moveToY);
             }
         }
         return false;
@@ -47,11 +39,6 @@ public class Rook extends Piece {
         } else {
             return "bRk";
         }
-    }
-
-    @Override
-    public void testMove(int moveToX, int moveToY) {
-        super.testMove(moveToX, moveToY);
     }
 
     @Override

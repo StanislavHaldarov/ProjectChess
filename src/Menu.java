@@ -1,3 +1,5 @@
+import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
@@ -20,9 +22,10 @@ public class Menu {
         }
     }
 
-    public static void enterPlayersChoice() {
-        char[] yCoordinates = {'a','b','c','d','e','f','g','h'};
-        char[] xCoordinates = {'1','2','3','4','5','6','7','8'};
+    public static void enterPlayersChoice(ArrayList<PossibleMoves> whiteMoves) {
+
+        char[] yCoordinates = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
+        char[] xCoordinates = {'1', '2', '3', '4', '5', '6', '7', '8'};
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter the coordinates of the piece you want to move! ");
         System.out.print("Enter the row/number from 1 to 8/->  ");
@@ -31,20 +34,38 @@ public class Menu {
         System.out.print("Enter the column/letter from a to h/ ");
         char column = scan.next().charAt(0);
         int columnNumber = convertColumnToInt(column);
-        System.out.println("Your choice is -> " + Board.board[rowNumber][columnNumber]);
-        System.out.println("Enter the coordinates of the place you want to move your piece -> " + Board.board[rowNumber][columnNumber]);
-        System.out.print("Enter the row/number from 1 to 8/->  ");
-        int newRow = scan.nextInt();
-        int newRowNumber = convertRow(newRow);
-        System.out.print("Enter the column/letter from a to h/ ");
-        char newColumn = scan.next().charAt(0);
-        int newColumnNumber = convertColumnToInt(newColumn);
-        if(Board.board[rowNumber][columnNumber].isPossibleMove(newRowNumber, newColumnNumber)) {
-            Board.board[rowNumber][columnNumber].move(newRowNumber, newColumnNumber);
+        boolean isIllegalMove = true;
+        for (PossibleMoves whiteMove : whiteMoves) {
+            if (rowNumber == whiteMove.getStartX() && columnNumber == whiteMove.getStartY()) {
+                isIllegalMove = false;
+                break;
+            }
         }
-        else{
-            System.out.println("Illegal move!");
-            enterPlayersChoice();
+        if(isIllegalMove){
+            System.out.println("You can't move that here!");
+            enterPlayersChoice(whiteMoves);
+        }
+        else {
+            isIllegalMove = true;
+            System.out.println("Your choice is -> " + Board.board[rowNumber][columnNumber]);
+            System.out.println("Enter the coordinates of the place you want to move your piece -> " + Board.board[rowNumber][columnNumber]);
+            System.out.print("Enter the row/number from 1 to 8/->  ");
+            int newRow = scan.nextInt();
+            int newRowNumber = convertRow(newRow);
+            System.out.print("Enter the column/letter from a to h/ ");
+            char newColumn = scan.next().charAt(0);
+            int newColumnNumber = convertColumnToInt(newColumn);
+            for (PossibleMoves whiteMove : whiteMoves) {
+                if (newRowNumber == whiteMove.getMoveToX() && newColumnNumber == whiteMove.getMoveToY()) {
+                    Board.board[rowNumber][columnNumber].move(newRowNumber, newColumnNumber);
+                    isIllegalMove = false;
+                    break;
+                }
+            }
+            if (isIllegalMove) {
+                System.out.println("Illegal move!");
+                enterPlayersChoice(whiteMoves);
+            }
         }
     }
 
@@ -55,19 +76,45 @@ public class Menu {
         Board.printBoard();
         boolean isTheGameOver = false;
         while (!isTheGameOver) {
-            enterPlayersChoice();
+            ArrayList<PossibleMoves> whiteMoves = new ArrayList<>();
+            ArrayList<PossibleMoves> nonCheckBlackMoves = new ArrayList<>();
+            BotLogic.addPossibleMoves(whiteMoves, Board.whitePieces, nonCheckBlackMoves);
+            whiteMoves = nonCheckBlackMoves;
+            if (!whiteMoves.isEmpty()) {
+                enterPlayersChoice(whiteMoves);
+            } else {
+                for (Piece whitePiece : Board.whitePieces) {
+                    if (whitePiece instanceof King) {
+                        if (Checkmate.isTheKingInCheck(whitePiece.getStartX(), whitePiece.getStartY())) {
+                            System.out.println("CHECKMATE! PLAYER WINS!");
+                            isTheGameOver = true;
+                        } else {
+                            System.out.println("STALEMATE!");
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
             board.printBoard();
             Board.sortPieces();
             PossibleMoves botMove = BotLogic.makeMove(isRandom);
+            if (botMove == null) {
+                for (Piece blackPiece : Board.blackPieces) {
+                    if (blackPiece instanceof King) {
+                        if (Checkmate.isTheKingInCheck(blackPiece.getStartX(), blackPiece.getStartY())) {
+                            System.out.println("CHECKMATE! PLAYER WINS!");
+                            isTheGameOver = true;
+                        } else {
+                            System.out.println("STALEMATE!");
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
             Board.board[botMove.getStartX()][botMove.getStartY()].move(botMove.getMoveToX(), botMove.getMoveToY());
             board.printBoard();
-            for (Piece whitePiece : Board.whitePieces) {
-                isTheGameOver = true;
-                if (whitePiece instanceof King) {
-                    isTheGameOver = false;
-                    break;
-                }
-            }
             Board.sortPieces();
         }
     }

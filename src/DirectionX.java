@@ -28,6 +28,6 @@ public interface DirectionX {
                 }
             }
         }
-        return false;
+        return result;
     }
 }
