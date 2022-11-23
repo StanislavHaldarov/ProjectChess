@@ -6,13 +6,9 @@ public class Bishop extends Piece {
     @Override
     public boolean isPossibleMove(int moveToX, int moveToY) {
         if (getStartX() < moveToX) {
-            if(checkSouthDiagonals(moveToX, moveToY)){
-                return Checkmate.isPossibleMove2(getColor(),moveToX,moveToY);
-            }
+            return checkSouthDiagonals(moveToX, moveToY);
         } else if (getStartX() > moveToX) {
-            if(checkNorthDiagonals(moveToX, moveToY)){
-                return Checkmate.isPossibleMove2(getColor(),moveToX,moveToY);
-            }
+            return checkNorthDiagonals(moveToX, moveToY);
 
         }
         return false;
@@ -48,10 +44,6 @@ public class Bishop extends Piece {
         super.move(moveToX, moveToY);
     }
 
-    @Override
-    public void testMove(int moveToX, int moveToY) {
-        super.testMove(moveToX, moveToY);
-    }
 
     @Override
     public String toString() {

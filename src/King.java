@@ -1,5 +1,6 @@
 public class King extends Piece {
     private boolean isFirstMove;
+
     public boolean isFirstMove() {
         return isFirstMove;
     }
@@ -17,47 +18,16 @@ public class King extends Piece {
     public boolean isPossibleMove(int moveToX, int moveToY) {
         if ((moveToX == getStartX() - 1 || moveToX == getStartX() || moveToX == getStartX() + 1) && (moveToY == getStartY() - 1 || moveToY == getStartY() || moveToY == getStartY() + 1)) {
             if (moveToX < getStartX()) {
-                if(checkNorthDirectionsKing(moveToX, moveToY)){
-                    return Checkmate.isPossibleMoveKing(getColor(), getStartX(), getStartY(), moveToX, moveToY);
-                }
+                return checkNorthDirectionsKing(moveToX, moveToY);
             } else if (moveToX > getStartX()) {
-                if(checkSouthDirectionsKing(moveToX, moveToY)){
-                    return Checkmate.isPossibleMoveKing(getColor(), getStartX(), getStartY(), moveToX, moveToY);
-                }
+                return checkSouthDirectionsKing(moveToX, moveToY);
             } else {
-                if(checkHorizontalDirectionsKing(moveToX, moveToY)){
-                    return Checkmate.isPossibleMoveKing(getColor(), getStartX(), getStartY(), moveToX, moveToY);
-                }
+                return checkHorizontalDirectionsKing(moveToX, moveToY);
             }
         } else if ((moveToY == getStartY() + 2 || moveToY == getStartY() - 2) && isFirstMove()) {
-            if(checkKingCastling(moveToY)){
-                return Checkmate.isPossibleMoveKing(getColor(), getStartX(), getStartY(), moveToX, moveToY);
-            }
+            return checkKingCastling(moveToY);
         }
         return false;
-    }
-    public boolean isInCheckmate() {
-        for (int moveToX = 0; moveToX < 8; moveToX++) {
-            for (int moveToY = 0; moveToY < 8; moveToY++) {
-                if(Board.board[getStartX()][getStartY()].isPossibleMove(moveToX,moveToY)){
-                    for (int startX = 0; startX < 8; startX++) {
-                        for (int startY = 0; startY < 8; startY++) {
-                            if(Board.board[startX][startY] != null) {
-                                if (!Board.board[startX][startY].getColor().equalsIgnoreCase(getColor()))
-                                {
-                                    if(Board.board[startX][startY].isPossibleMove(moveToX,moveToY))
-                                    {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-        return true;
     }
 
     private boolean checkKingCastling(int moveToY) {
@@ -111,7 +81,7 @@ public class King extends Piece {
         } else if (moveToY == getStartY()) {
             result = checkNorthKing(moveToX, moveToY);
         } else {
-            result = checkNortheastKing( moveToX, moveToY);
+            result = checkNortheastKing(moveToX, moveToY);
         }
         return result;
     }
@@ -212,15 +182,10 @@ public class King extends Piece {
     @Override
     public void move(int moveToX, int moveToY) {
         super.move(moveToX, moveToY);
-            if (isFirstMove()) {
-                setFirstMove(false);
-            }
+        if (isFirstMove()) {
+            setFirstMove(false);
+        }
 
-    }
-
-    @Override
-    public void testMove(int moveToX, int moveToY) {
-        super.testMove(moveToX, moveToY);
     }
 
     @Override

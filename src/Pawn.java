@@ -33,39 +33,23 @@ public class Pawn extends Piece {
     public boolean isPossibleMove(int moveToX, int moveToY) {
         if (getColor().equalsIgnoreCase("white")) {
             if (moveToX == getStartX() - 1 && moveToY == getStartY() - 1) {
-                if (checkWhiteWestDiagonal(moveToX, moveToY)) {
-                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-                }
+                return checkWhiteWestDiagonal(moveToX, moveToY);
             } else if (moveToX == getStartX() - 1 && moveToY == getStartY() + 1) {
-                if (checkWhiteEastDiagonal(moveToX, moveToY)) {
-                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-                }
+                return checkWhiteEastDiagonal(moveToX, moveToY);
             } else if (moveToX == getStartX() - 2 && moveToY == getStartY()) {
-                if (checkWhiteIfFirstMove(moveToX)) {
-                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-                }
+                return checkWhiteIfFirstMove(moveToX);
             } else if (moveToX == getStartX() - 1 && moveToY == getStartY()) {
-                if (checkWhiteFront(moveToX)) {
-                    return Checkmate.isPossibleMove2(getColor(),  moveToX, moveToY);
-                }
+                return checkWhiteFront(moveToX);
             }
         } else {
             if (moveToX == getStartX() + 1 && moveToY == getStartY() - 1) {
-                if (checkBlackWestDiagonal(moveToX, moveToY)) {
-                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-                }
+                return checkBlackWestDiagonal(moveToX, moveToY);
             } else if (moveToX == getStartX() + 1 && moveToY == getStartY() + 1) {
-                if (checkBlackEastDiagonal(moveToX, moveToY)) {
-                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-                }
+                return checkBlackEastDiagonal(moveToX, moveToY);
             } else if (moveToX == getStartX() + 2 && moveToY == getStartY()) {
-                if (checkBlackIfFirstMove(moveToX)) {
-                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-                }
+                return checkBlackIfFirstMove(moveToX);
             } else if (moveToX == getStartX() + 1 && moveToY == getStartY()) {
-                if (checkBlackFront(moveToX)) {
-                    return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-                }
+                return checkBlackFront(moveToX);
             }
         }
         return false;
@@ -217,12 +201,6 @@ public class Pawn extends Piece {
             case "B" -> new Bishop(this.getColor(), getStartX(), getStartY());
             default -> new Queen(this.getColor(), getStartX(), getStartY());
         };
-    }
-
-    @Override
-    public void testMove(int moveToX, int moveToY) {
-        super.testMove(moveToX, moveToY);
-        checkEnPassant();
     }
 
     @Override
