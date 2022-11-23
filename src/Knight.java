@@ -10,13 +10,9 @@ public class Knight extends Piece {
         boolean result = ((getStartX() + 2 == moveToX) && (getStartY() + 1 == moveToY)) || ((getStartX() + 1 == moveToX) && (getStartY() + 2 == moveToY)) || ((getStartX() - 1 == moveToX) && (getStartY() + 2 == moveToY)) || ((getStartX() - 2 == moveToX) && (getStartY() + 1 == moveToY))
                 || ((getStartX() - 2 == moveToX) && (getStartY() - 1 == moveToY)) || ((getStartX() - 1 == moveToX) && (getStartY() - 2 == moveToY)) || ((getStartX() + 1 == moveToX) && (getStartY() - 2 == moveToY)) || ((getStartX() + 2 == moveToX) && (getStartY() - 1 == moveToY));
         if ((Board.board[moveToX][moveToY] == null)) {
-            if(result){
-                return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-            }
+            return result;
         } else if (!Objects.equals(Board.board[moveToX][moveToY].getColor(), Board.board[getStartX()][getStartY()].getColor())) {
-            if(result){
-                return Checkmate.isPossibleMove2(getColor(),moveToX,moveToY);
-            }
+            return result;
         }
         return false;
     }
@@ -26,10 +22,6 @@ public class Knight extends Piece {
         super.move(moveToX,moveToY);
     }
 
-    @Override
-    public void testMove(int moveToX, int moveToY) {
-        super.testMove(moveToX, moveToY);
-    }
 
     @Override
     public String toString() {

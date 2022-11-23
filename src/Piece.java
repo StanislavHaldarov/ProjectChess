@@ -9,22 +9,12 @@ public abstract class Piece {
     public abstract boolean isPossibleMove(int moveToX, int moveToY);
 
     public abstract String toString();
-    public void move(int moveToX, int moveToY){
-        boolean isPossibleMove = isPossibleMove(moveToX, moveToY);
-        if (isPossibleMove) {
-            Board.board[moveToX][moveToY] = Board.board[getStartX()][getStartY()];
-            Board.board[getStartX()][getStartY()] = null;
-            setStartX(moveToX);
-            setStartY(moveToY);
-        }
-    }
-    public void testMove(int moveToX,int moveToY)
-    {
-        boolean isPossibleMove = isPossibleMove(moveToX, moveToY);
-        if (isPossibleMove) {
-            Board.board[moveToX][moveToY] = Board.board[getStartX()][getStartY()];
-            Board.board[getStartX()][getStartY()] = null;
-        }
+
+    public void move(int moveToX, int moveToY) {
+        Board.board[moveToX][moveToY] = Board.board[getStartX()][getStartY()];
+        Board.board[getStartX()][getStartY()] = null;
+        setStartX(moveToX);
+        setStartY(moveToY);
     }
 
     public Piece(String color, int startX, int startY) {

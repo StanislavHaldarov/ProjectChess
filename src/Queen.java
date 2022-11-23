@@ -8,19 +8,12 @@ public class Queen extends Piece {
     @Override
     public boolean isPossibleMove(int moveToX, int moveToY) {
         if (moveToX < getStartX()) {
-            if (checkNorthDirections(moveToX, moveToY)) {
-                return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-            }
+            return checkNorthDirections(moveToX, moveToY);
         } else if (moveToX > getStartX()) {
-            if (checkSouthDirections(moveToX, moveToY)) {
-                return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-            }
+            return checkSouthDirections(moveToX, moveToY);
         } else {
-            if (checkHorizontalDirections(moveToX, moveToY)) {
-                return Checkmate.isPossibleMove2(getColor(), moveToX, moveToY);
-            }
+            return checkHorizontalDirections(moveToX, moveToY);
         }
-        return false;
     }
 
     private boolean checkNorthDirections(int moveToX, int moveToY) {
@@ -68,11 +61,6 @@ public class Queen extends Piece {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public void testMove(int moveToX, int moveToY) {
-        super.testMove(moveToX, moveToY);
     }
 
     @Override
