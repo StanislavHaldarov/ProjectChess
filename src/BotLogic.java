@@ -46,14 +46,14 @@ public class BotLogic {
         return newValue;
     }
 
-    public static void addPossibleMoves(ArrayList<PossibleMoves> moves, ArrayList<Piece> pieces,ArrayList<PossibleMoves> nonCheckMoves) {
+    public static void addPossibleMoves(ArrayList<PossibleMoves> moves, ArrayList<Piece> pieces, ArrayList<PossibleMoves> nonCheckMoves,boolean isRandom) {
         for (Piece piece : pieces) {
             for (int moveToX = 0; moveToX < 8; moveToX++) {
                 for (int moveToY = 0; moveToY < 8; moveToY++) {
                     if (Board.board[piece.getStartX()][piece.getStartY()] != null) {
                         if (Board.board[piece.getStartX()][piece.getStartY()].isPossibleMove(moveToX, moveToY)) {
                             moves.add(new PossibleMoves(piece.getStartX(), piece.getStartY(), moveToX, moveToY, 0));
-                            if (piece.getColor().equalsIgnoreCase("black")) {
+                            if (piece.getColor().equalsIgnoreCase("black") && !isRandom) {
                                 if (Board.board[moveToX][moveToY] != null) {
                                     moves.get(moves.size() - 1).setValue(returnMoveValue(moveToX, moveToY));
                                 }
@@ -63,7 +63,7 @@ public class BotLogic {
                 }
             }
         }
-        addNonCheckMoves(moves,nonCheckMoves);
+        addNonCheckMoves(moves, nonCheckMoves);
     }
 
     public static PossibleMoves makeStrategicMove(ArrayList<PossibleMoves> blackMoves) {
@@ -87,7 +87,7 @@ public class BotLogic {
 
     public static PossibleMoves makeRandomMove(ArrayList<PossibleMoves> blackMoves) {
         Random rnd = new Random();
-        return blackMoves.get(rnd.nextInt(blackMoves.size() - 1));
+        return blackMoves.get(rnd.nextInt(blackMoves.size()));
     }
 
     public static ArrayList<PossibleMoves> setBlackPossibleMovesValues(ArrayList<PossibleMoves> blackMoves) {
@@ -105,38 +105,34 @@ public class BotLogic {
                 Board.board[blackMove.getMoveToX()][blackMove.getMoveToY()] = undoBlackPieceMove;
                 Board.board[blackMove.getStartX()][blackMove.getStartY()] = null;
                 blackMove.setValue(blackMove.getValue() - calculateNextWhiteMoveValue());
-                undoMove(blackMove,undoBlackPieceMove,undoWhitePieceMove, x, y);
+                undoMove(blackMove, undoBlackPieceMove, undoWhitePieceMove, x, y);
             }
         }
         return blackMoves;
     }
-    static void undoMove(PossibleMoves blackMove, Piece undoBlackPieceMove, Piece undoWhitePieceMove, int x, int y)
-    {
+
+    static void undoMove(PossibleMoves blackMove, Piece undoBlackPieceMove, Piece undoWhitePieceMove, int x, int y) {
         Board.board[blackMove.getStartX()][blackMove.getStartY()] = undoBlackPieceMove;
         Board.board[blackMove.getStartX()][blackMove.getStartY()].setStartX(x);
         Board.board[blackMove.getStartX()][blackMove.getStartY()].setStartY(y);
         Board.board[blackMove.getMoveToX()][blackMove.getMoveToY()] = undoWhitePieceMove;
     }
-    static void addNonCheckMoves(ArrayList<PossibleMoves> moves, ArrayList<PossibleMoves> nonCheckMoves)
-    {
+
+    static void addNonCheckMoves(ArrayList<PossibleMoves> moves, ArrayList<PossibleMoves> nonCheckMoves) {
         for (PossibleMoves move : moves) {
-            if (Board.board[move.getStartX()][move.getStartY()] instanceof King) {
-                if (Checkmate.isPossibleMoveKing(move.getStartX(), move.getStartY(), move.getMoveToX(), move.getMoveToY())) {
-                    nonCheckMoves.add(move);
-                }
-            } else {
-                if (!Checkmate.checkIfPossibleMoveIsInCheck(move.getStartX(), move.getStartY(), move.getMoveToX(), move.getMoveToY())) {
-                    nonCheckMoves.add(move);
-                }
+            if (!Checkmate.checkIfPossibleMoveIsCheck(move.getStartX(), move.getStartY(), move.getMoveToX(), move.getMoveToY())) {
+                nonCheckMoves.add(move);
             }
         }
     }
+
     public static PossibleMoves makeMove(boolean isRandom) {
         ArrayList<PossibleMoves> blackMoves = new ArrayList<>();
         ArrayList<PossibleMoves> nonCheckBlackMoves = new ArrayList<>();
-        addPossibleMoves(blackMoves, Board.blackPieces, nonCheckBlackMoves);
-        blackMoves = nonCheckBlackMoves;
-        if (!blackMoves.isEmpty()) {
+        addPossibleMoves(blackMoves, Board.blackPieces, nonCheckBlackMoves,isRandom);
+        blackMoves.clear();
+        if (!nonCheckBlackMoves.isEmpty()) {
+            blackMoves = nonCheckBlackMoves;
             if (!isRandom) {
                 return makeStrategicMove(blackMoves);
             } else {
