@@ -56,10 +56,12 @@ public class Menu {
             char newColumn = scan.next().charAt(0);
             int newColumnNumber = convertColumnToInt(newColumn);
             for (PossibleMoves whiteMove : whiteMoves) {
-                if (newRowNumber == whiteMove.getMoveToX() && newColumnNumber == whiteMove.getMoveToY()) {
-                    Board.board[rowNumber][columnNumber].move(newRowNumber, newColumnNumber);
-                    isIllegalMove = false;
-                    break;
+                if(Board.board[rowNumber][columnNumber].isPossibleMove(whiteMove.getMoveToX(),whiteMove.getMoveToY())) {
+                    if (newRowNumber == whiteMove.getMoveToX() && newColumnNumber == whiteMove.getMoveToY()) {
+                        Board.board[rowNumber][columnNumber].move(newRowNumber, newColumnNumber);
+                        isIllegalMove = false;
+                        break;
+                    }
                 }
             }
             if (isIllegalMove) {
@@ -78,36 +80,37 @@ public class Menu {
         while (!isTheGameOver) {
             ArrayList<PossibleMoves> whiteMoves = new ArrayList<>();
             ArrayList<PossibleMoves> nonCheckBlackMoves = new ArrayList<>();
-            BotLogic.addPossibleMoves(whiteMoves, Board.whitePieces, nonCheckBlackMoves);
-            whiteMoves = nonCheckBlackMoves;
-            if (!whiteMoves.isEmpty()) {
+            BotLogic.addPossibleMoves(whiteMoves, board.whitePieces, nonCheckBlackMoves,isRandom);
+            whiteMoves.clear();
+            if (!nonCheckBlackMoves.isEmpty()) {
+                whiteMoves = nonCheckBlackMoves;
                 enterPlayersChoice(whiteMoves);
             } else {
-                for (Piece whitePiece : Board.whitePieces) {
+                for (Piece whitePiece : board.whitePieces) {
                     if (whitePiece instanceof King) {
-                        if (Checkmate.isTheKingInCheck(whitePiece.getStartX(), whitePiece.getStartY())) {
+                        if (Checkmate.checkIfKingInCheck(whitePiece.getStartX(), whitePiece.getStartY())) {
                             System.out.println("CHECKMATE! PLAYER WINS!");
-                            isTheGameOver = true;
                         } else {
                             System.out.println("STALEMATE!");
                         }
+                        isTheGameOver = true;
                         break;
                     }
                 }
                 break;
             }
             board.printBoard();
-            Board.sortPieces();
+            board.sortPieces();
             PossibleMoves botMove = BotLogic.makeMove(isRandom);
             if (botMove == null) {
-                for (Piece blackPiece : Board.blackPieces) {
+                for (Piece blackPiece : board.blackPieces) {
                     if (blackPiece instanceof King) {
-                        if (Checkmate.isTheKingInCheck(blackPiece.getStartX(), blackPiece.getStartY())) {
+                        if (Checkmate.checkIfKingInCheck(blackPiece.getStartX(), blackPiece.getStartY())) {
                             System.out.println("CHECKMATE! PLAYER WINS!");
-                            isTheGameOver = true;
                         } else {
                             System.out.println("STALEMATE!");
                         }
+                        isTheGameOver = true;
                         break;
                     }
                 }
@@ -115,7 +118,7 @@ public class Menu {
             }
             Board.board[botMove.getStartX()][botMove.getStartY()].move(botMove.getMoveToX(), botMove.getMoveToY());
             board.printBoard();
-            Board.sortPieces();
+            board.sortPieces();
         }
     }
 
