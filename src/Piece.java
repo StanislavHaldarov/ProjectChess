@@ -27,10 +27,6 @@ public abstract class Piece {
         return color;
     }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
-
     public int getStartX() {
         return startX;
     }

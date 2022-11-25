@@ -19,6 +19,8 @@ public interface Checkmate {
     }
 
     static boolean checkIfKingInCheck(int stX, int stY) {
+        boolean result = false;
+        int kingKillersCount = 0;
         for (int startX = 0; startX < 8; startX++) {
             for (int startY = 0; startY < 8; startY++) {
                 if (Board.board[startX][startY] != null) {
@@ -36,7 +38,8 @@ public interface Checkmate {
                 }
             }
         }
-        return false;
+        return result;
     }
 
 }
+

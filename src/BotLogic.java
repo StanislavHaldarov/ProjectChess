@@ -46,7 +46,7 @@ public class BotLogic {
         return newValue;
     }
 
-    public static void addPossibleMoves(ArrayList<PossibleMoves> moves, ArrayList<Piece> pieces, ArrayList<PossibleMoves> nonCheckMoves,boolean isRandom) {
+    public static void addPossibleMoves(ArrayList<PossibleMoves> moves, ArrayList<Piece> pieces, ArrayList<PossibleMoves> nonCheckMoves, boolean isRandom) {
         for (Piece piece : pieces) {
             for (int moveToX = 0; moveToX < 8; moveToX++) {
                 for (int moveToY = 0; moveToY < 8; moveToY++) {
@@ -129,7 +129,7 @@ public class BotLogic {
     public static PossibleMoves makeMove(boolean isRandom) {
         ArrayList<PossibleMoves> blackMoves = new ArrayList<>();
         ArrayList<PossibleMoves> nonCheckBlackMoves = new ArrayList<>();
-        addPossibleMoves(blackMoves, Board.blackPieces, nonCheckBlackMoves,isRandom);
+        addPossibleMoves(blackMoves, Board.blackPieces, nonCheckBlackMoves, isRandom);
         blackMoves.clear();
         if (!nonCheckBlackMoves.isEmpty()) {
             blackMoves = nonCheckBlackMoves;
