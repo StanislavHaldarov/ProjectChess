@@ -191,9 +191,9 @@ public class King extends Piece {
     @Override
     public String toString() {
         if (super.getColor().equals("white")) {
-            return "wK";
+            return "wK ";
         } else {
-            return "bK";
+            return "bK ";
         }
     }
 }

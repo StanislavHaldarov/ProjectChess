@@ -41,11 +41,10 @@ public class Menu {
                 break;
             }
         }
-        if(isIllegalMove){
+        if (isIllegalMove) {
             System.out.println("You can't move that here!");
             enterPlayersChoice(whiteMoves);
-        }
-        else {
+        } else {
             isIllegalMove = true;
             System.out.println("Your choice is -> " + Board.board[rowNumber][columnNumber]);
             System.out.println("Enter the coordinates of the place you want to move your piece -> " + Board.board[rowNumber][columnNumber]);
@@ -56,12 +55,13 @@ public class Menu {
             char newColumn = scan.next().charAt(0);
             int newColumnNumber = convertColumnToInt(newColumn);
             for (PossibleMoves whiteMove : whiteMoves) {
-                if(Board.board[rowNumber][columnNumber].isPossibleMove(whiteMove.getMoveToX(),whiteMove.getMoveToY())) {
+                if (rowNumber == whiteMove.getStartX() && columnNumber == whiteMove.getStartY()) {
                     if (newRowNumber == whiteMove.getMoveToX() && newColumnNumber == whiteMove.getMoveToY()) {
                         Board.board[rowNumber][columnNumber].move(newRowNumber, newColumnNumber);
                         isIllegalMove = false;
                         break;
                     }
+
                 }
             }
             if (isIllegalMove) {
@@ -72,7 +72,6 @@ public class Menu {
     }
 
     public static void inGame(boolean isRandom) {
-        Scanner scan = new Scanner(System.in);
         Board board = new Board();
         Board.initializeStartingBoard();
         Board.printBoard();
@@ -80,7 +79,7 @@ public class Menu {
         while (!isTheGameOver) {
             ArrayList<PossibleMoves> whiteMoves = new ArrayList<>();
             ArrayList<PossibleMoves> nonCheckBlackMoves = new ArrayList<>();
-            BotLogic.addPossibleMoves(whiteMoves, board.whitePieces, nonCheckBlackMoves,isRandom);
+            BotLogic.addPossibleMoves(whiteMoves, board.whitePieces, nonCheckBlackMoves, isRandom);
             whiteMoves.clear();
             if (!nonCheckBlackMoves.isEmpty()) {
                 whiteMoves = nonCheckBlackMoves;
