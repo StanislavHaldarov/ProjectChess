@@ -1,13 +1,15 @@
+package MenuAndBoard;
+
+import Pieces.*;
+
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Board {
-    static Piece[][] board = new Piece[8][8];
-    static ArrayList<Piece> whitePieces = new ArrayList<Piece>();
-    static ArrayList<Piece> blackPieces = new ArrayList<Piece>();
-    //qqq
+    public static Piece[][] board = new Piece[8][8];
+    public static ArrayList<Piece> whitePieces = new ArrayList<Piece>();
+    public static ArrayList<Piece> blackPieces = new ArrayList<Piece>();
 
-    public static void printBoard() {
+    public void printBoard() {
         System.out.println("      a    b    c    d    e    f    g    h");
 
         System.out.println("   -----------------------------------------");
@@ -31,72 +33,7 @@ public class Board {
         System.out.println();
     }
 
-//    public static int transformRows(String blackMove) {
-//        char[] letters = blackMove.toCharArray();
-//        return letters[1] - 1;
-//    }
-//
-//    public static int transformColumns(String blackMove) {
-//        char[] letters = blackMove.toCharArray();
-//        switch (letters[0]) {
-//            case 'a' -> {
-//                return 0;
-//            }
-//            case 'b' -> {
-//                return 1;
-//            }
-//            case 'c' -> {
-//                return 2;
-//            }
-//            case 'd' -> {
-//                return 3;
-//            }
-//            case 'e' -> {
-//                return 4;
-//            }
-//            case 'f' -> {
-//                return 5;
-//            }
-//            case 'g' -> {
-//                return 6;
-//            }
-//            case 'h' -> {
-//                return 7;
-//            }
-//            default -> {
-//                return 8;
-//            }
-//        }
-//    }
-
-//    public static String transformCoordinates(int k, int l) {
-//        String xyCoordinate;
-//        switch (l) {
-//            case 0 -> xyCoordinate = "a";
-//            case 1 -> xyCoordinate = "b";
-//            case 2 -> xyCoordinate = "c";
-//            case 3 -> xyCoordinate = "d";
-//            case 4 -> xyCoordinate = "e";
-//            case 5 -> xyCoordinate = "f";
-//            case 6 -> xyCoordinate = "g";
-//            case 7 -> xyCoordinate = "h";
-//        }
-//        switch (k) {
-//            case 0 -> xyCoordinate = "8";
-//            case 1 -> xyCoordinate = "7";
-//            case 2 -> xyCoordinate = "6";
-//            case 3 -> xyCoordinate = "5";
-//            case 4 -> xyCoordinate = "4";
-//            case 5 -> xyCoordinate = "3";
-//            case 6 -> xyCoordinate = "2";
-//            case 7 -> xyCoordinate = "1";
-//        }
-//        xyCoordinate = l + "" + k;
-//        return xyCoordinate;
-//    }
-
-
-    public static void initializeStartingBoard() {
+    public void initializeStartingBoard() {
         board[0][1] = new Knight("black", 0, 1);
         board[0][6] = new Knight("black", 0, 6);
         board[1][0] = new Pawn("black", 1, 0, true, 0);
@@ -123,7 +60,6 @@ public class Board {
         board[0][7] = new Rook("black", 0, 7, true);
         board[0][2] = new Bishop("black", 0, 2);
         board[0][5] = new Bishop("black", 0, 5);
-        // white
         board[7][1] = new Knight("white", 7, 1);
         board[7][6] = new Knight("white", 7, 6);
         board[6][0] = new Pawn("white", 6, 0, true, 0);
@@ -159,7 +95,3 @@ public class Board {
         }
     }
 }
-
-
-
-

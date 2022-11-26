@@ -1,18 +1,17 @@
-import java.util.concurrent.Callable;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+package Pieces;
 
-public abstract class Piece {
+public abstract class Piece implements Movements.Movable {
     protected String color;
     protected int startX, startY;
 
-    public abstract boolean isPossibleMove(int moveToX, int moveToY);
+    public abstract boolean isValidMove(int moveToX, int moveToY);
 
     public abstract String toString();
 
+    @Override
     public void move(int moveToX, int moveToY) {
-        Board.board[moveToX][moveToY] = Board.board[getStartX()][getStartY()];
-        Board.board[getStartX()][getStartY()] = null;
+        MenuAndBoard.Board.board[moveToX][moveToY] = MenuAndBoard.Board.board[getStartX()][getStartY()];
+        MenuAndBoard.Board.board[getStartX()][getStartY()] = null;
         setStartX(moveToX);
         setStartY(moveToY);
     }

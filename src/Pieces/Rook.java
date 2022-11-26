@@ -1,5 +1,6 @@
+package Pieces;
+
 public class Rook extends Piece {
-    private boolean isFirstMove;
 
     public boolean isFirstMove() {
         return isFirstMove;
@@ -15,18 +16,18 @@ public class Rook extends Piece {
     }
 
     @Override
-    public boolean isPossibleMove(int moveToX, int moveToY) {
+    public boolean isValidMove(int moveToX, int moveToY) {
         if (moveToX == getStartX() && moveToY != getStartY()) {
             if (moveToY > getStartY()) {
-                return DirectionY.checkEast(getStartX(), getStartY(), moveToX, moveToY);
+                return Movements.DirectionY.checkEast(getStartX(), getStartY(), moveToX, moveToY);
             } else {
-                return DirectionY.checkWest(getStartX(), getStartY(), moveToX, moveToY);
+                return Movements.DirectionY.checkWest(getStartX(), getStartY(), moveToX, moveToY);
             }
         } else if (moveToX != getStartX() && moveToY == getStartY()) {
             if (moveToX > getStartX()) {
-                return DirectionX.checkSouth(getStartX(), getStartY(), moveToX, moveToY);
+                return Movements.DirectionX.checkSouth(getStartX(), getStartY(), moveToX, moveToY);
             } else {
-                return DirectionX.checkNorth(getStartX(), getStartY(), moveToX, moveToY);
+                return Movements.DirectionX.checkNorth(getStartX(), getStartY(), moveToX, moveToY);
             }
         }
         return false;
@@ -49,5 +50,5 @@ public class Rook extends Piece {
         }
 
     }
-
+    private boolean isFirstMove;
 }
