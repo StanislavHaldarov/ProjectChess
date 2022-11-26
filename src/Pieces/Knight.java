@@ -1,4 +1,4 @@
-import java.util.Objects;
+package Pieces;
 
 public class Knight extends Piece {
     public Knight(String color, int startX, int startY) {
@@ -6,12 +6,12 @@ public class Knight extends Piece {
     }
 
     @Override
-    public boolean isPossibleMove(int moveToX, int moveToY) {
+    public boolean isValidMove(int moveToX, int moveToY) {
         boolean result = ((getStartX() + 2 == moveToX) && (getStartY() + 1 == moveToY)) || ((getStartX() + 1 == moveToX) && (getStartY() + 2 == moveToY)) || ((getStartX() - 1 == moveToX) && (getStartY() + 2 == moveToY)) || ((getStartX() - 2 == moveToX) && (getStartY() + 1 == moveToY))
                 || ((getStartX() - 2 == moveToX) && (getStartY() - 1 == moveToY)) || ((getStartX() - 1 == moveToX) && (getStartY() - 2 == moveToY)) || ((getStartX() + 1 == moveToX) && (getStartY() - 2 == moveToY)) || ((getStartX() + 2 == moveToX) && (getStartY() - 1 == moveToY));
-        if ((Board.board[moveToX][moveToY] == null)) {
+        if ((MenuAndBoard.Board.board[moveToX][moveToY] == null)) {
             return result;
-        } else if (!Objects.equals(Board.board[moveToX][moveToY].getColor(), Board.board[getStartX()][getStartY()].getColor())) {
+        } else if (!MenuAndBoard.Board.board[moveToX][moveToY].getColor().equals(MenuAndBoard.Board.board[getStartX()][getStartY()].getColor())) {
             return result;
         }
         return false;
