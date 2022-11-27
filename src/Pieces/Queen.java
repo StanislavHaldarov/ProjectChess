@@ -63,13 +63,11 @@ public class Queen extends Piece {
             }
         }
     }
-
     private boolean checkHorizontalDirections(int moveToX, int moveToY) {
         if (moveToY < getStartY()) {
             return Movements.DirectionY.checkWest(getStartX(), getStartY(), moveToX, moveToY);
         } else if (moveToY > getStartY()) {
             return Movements.DirectionY.checkEast(getStartX(), getStartY(), moveToX, moveToY);
-
         } else {
             return false;
         }

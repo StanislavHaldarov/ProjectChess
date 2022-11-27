@@ -1,35 +1,47 @@
+import MenuAndBoard.Board;
 import Pieces.Knight;
-import Pieces.Piece;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-
 public class KnightTest {
-    public static Piece[][] board = new Piece[8][8];
     @Before
-    public void initializeBishop(){
-        board[4][4] = new Knight("white", 4,4);
-        board[2][1] = new Knight("white", 2,1);
+    public void initializeBishop() {
+        Board.board[4][4] = new Knight("white", 4, 4);
+        Board.board[2][1] = new Knight("black", 2, 1);
     }
+
     @Test
-    public void testToStringMethodTWhenKnightIsWhite(){
-        assertEquals("wKn",board[4][4].toString());
+    public void testToStringMethodTWhenKnightIsWhite() {
+        assertEquals("wKn", Board.board[4][4].toString());
     }
+
     @Test
-    public void testToStringMethodTWhenKnightIsBlack(){
-        assertEquals("wKn",board[4][4].toString());
+    public void testToStringMethodTWhenKnightIsBlack() {
+        assertEquals("bKn", Board.board[2][1].toString());
     }
+
     @Test
-    public void testValidMoveWhenTheMoveIsValid(){
-        assertTrue(board[4][4].isValidMove(2,3));
-        assertTrue(board[2][1].isValidMove(0,0));
+    public void testValidMoveWhenTheMoveIsValid() {
+        Board.board[2][3] = new Knight("black", 2, 3);
+        assertTrue(Board.board[4][4].isValidMove(2, 3));
+        assertTrue(Board.board[2][1].isValidMove(0, 0));
     }
+
     @Test
-    public void testValidMoveWhenTheMoveIsNotValid(){
-        assertFalse(board[4][4].isValidMove(5,7));
-        assertFalse(board[2][1].isValidMove(3,2));
+    public void testValidMoveWhenTheMoveIsNotValid() {
+        Board.board[5][7] = new Knight("white", 5, 7);
+        assertFalse(Board.board[4][4].isValidMove(5, 7));
+        assertFalse(Board.board[2][1].isValidMove(3, 2));
+    }
+
+    @Test
+    public void testMoveMethod() {
+        Board.board[0][0] = new Knight("white", 0, 0);
+        Board.board[0][0].move(1, 2);
+        assertTrue(Board.board[1][2] instanceof Knight);
     }
 }
