@@ -32,7 +32,9 @@ public class KingTest {
         assertFalse(Board.board[4][4].isValidMove(3,3));
         //when coordinates are wrong
         assertFalse(Board.board[4][4].isValidMove(2,2));
-
+        //when cornered in northwest
+        Board.board[0][0] = new King("white", 0,0, false);
+        assertFalse(Board.board[0][0].isValidMove(0,-1));
     }
     @Test
     public void testKingNorthValidMoves()
@@ -43,7 +45,10 @@ public class KingTest {
         Board.board[3][4] = new Pawn("white",3,4,false,1);
         assertFalse(Board.board[4][4].isValidMove(3,4));
         assertFalse(Board.board[4][4].isValidMove(2,4));
-
+        Board.board[0][0] = new King("white", 0,0, false);
+        assertFalse(Board.board[0][0].isValidMove(0,0));
+        Board.board[0][0] = new King("white", 0,0, false);
+        assertFalse(Board.board[0][0].isValidMove(-1,0));
     }
 
     @Test
@@ -128,10 +133,20 @@ public class KingTest {
         Board.board[0][6] = new Pawn("white",0,6,true,7);
         assertFalse(Board.board[0][4].isValidMove(0,2));
         assertFalse(Board.board[0][4].isValidMove(0,6));
+        //when diagonal castling
+        Board.board[0][4] = new King("black",0,4,true);
+        assertFalse(Board.board[0][4].isValidMove(2,2));
+        //when coordinates are right but there isn't a rook
+        Board.board[0][1] = null;
+        Board.board[0][6] = null;
+        Board.board[0][0] = new Pawn("black",0,0,true,2);
+        Board.board[0][7] = new Pawn("black",0,7,true,7);
+        assertFalse(Board.board[0][4].isValidMove(0,2));
+        assertFalse(Board.board[0][4].isValidMove(0,6));
     }
     @Test
     public void testMoveMethod(){
-        Board.board[7][1] = new King("black",7,1,false);
+        Board.board[7][1] = new King("black",7,1,true);
         Board.board[7][1].move(7,2);
         assertTrue(Board.board[7][2] instanceof King);
     }
