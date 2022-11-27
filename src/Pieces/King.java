@@ -16,7 +16,8 @@ public class King extends Piece {
 
     @Override
     public boolean isValidMove(int moveToX, int moveToY) {
-        if ((moveToX == getStartX() - 1 || moveToX == getStartX() || moveToX == getStartX() + 1) && (moveToY == getStartY() - 1 || moveToY == getStartY() || moveToY == getStartY() + 1)) {
+        if ((moveToX == getStartX() - 1 || moveToX == getStartX() || moveToX == getStartX() + 1) && (moveToY == getStartY() - 1
+                || moveToY == getStartY() || moveToY == getStartY() + 1)) {
             if (moveToX < getStartX()) {
                 return checkNorthDirectionsKing(moveToX, moveToY);
             } else if (moveToX > getStartX()) {
