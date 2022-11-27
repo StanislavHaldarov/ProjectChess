@@ -5,13 +5,13 @@ public class Bishop extends Piece {
         super(color, startX, startY);
     }
 
+
     @Override
     public boolean isValidMove(int moveToX, int moveToY) {
         if (getStartX() < moveToX) {
             return checkSouthDiagonals(moveToX, moveToY);
         } else if (getStartX() > moveToX) {
             return checkNorthDiagonals(moveToX, moveToY);
-
         }
         return false;
     }
