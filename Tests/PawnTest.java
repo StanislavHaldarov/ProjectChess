@@ -11,7 +11,7 @@ public class PawnTest {
     public void initializePawns() {
         Board.board[6][1] = new Pawn("white", 6, 1, true, 0);
         Board.board[3][1] = new Pawn("black", 3, 1, false, 1);
-
+    }
     @Before
     public void initializePawns() {
         Board.board[6][0] = new Pawn("white", 6, 0, true, 0);
