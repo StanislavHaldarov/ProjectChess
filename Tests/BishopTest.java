@@ -33,7 +33,16 @@ public class BishopTest {
     }
     @Test
     public void testValidMoveNorthEastDiagonalWhenTheMoveIsValid(){
-        assertTrue(board[4][4].isValidMove(7, 7));
+        assertTrue(board[4][4].isValidMove(1, 7));
+    }
+    @Test
+    public void testValidMoveIsNotValid(){
+        assertFalse(board[4][4].isValidMove(4, 4));
+    }
+    @Test
+    public void testValidMoveCheckNorthDiagonalsIsNotValid(){
+        assertFalse(board[4][4].isValidMove(3, 4));
+        assertFalse(board[4][4].isValidMove(5, 4));
     }
     @Test
     public void testValidMoveWhenTheMoveIsNotValid(){
