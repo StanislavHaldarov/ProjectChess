@@ -8,6 +8,7 @@ public class King extends Piece {
     public void setFirstMove(boolean firstMove) {
         isFirstMove = firstMove;
     }
+
     public King(String color, int startX, int startY, boolean isFirstMove) {
         super(color, startX, startY);
         this.isFirstMove = isFirstMove;
@@ -28,8 +29,10 @@ public class King extends Piece {
         }
         return false;
     }
+
     @Override
     public void move(int moveToX, int moveToY) {
+        setRookNewCoordinates(moveToY);
         super.move(moveToX, moveToY);
         if (isFirstMove()) {
             setFirstMove(false);
@@ -45,32 +48,36 @@ public class King extends Piece {
             return "bK ";
         }
     }
+
     private boolean isFirstMove;
+
     private boolean checkKingCastling(int moveToY) {
         if (moveToY == getStartY() + 2) {
             if (MenuAndBoard.Board.board[getStartX()][getStartY() + 1] == null && MenuAndBoard.Board.board[getStartX()][getStartY() + 2] == null) {
                 return checkShortCastling();
-            } else {
-                return false;
             }
-        } else {
+        } else if(moveToY == getStartY() -2){
             if (MenuAndBoard.Board.board[getStartX()][getStartY() - 1] == null && MenuAndBoard.Board.board[getStartX()][getStartY() - 2] == null && MenuAndBoard.Board.board[getStartX()][getStartY() - 3] == null) {
                 return checkLongCastling();
-            } else {
-                return false;
             }
         }
+        return false;
     }
 
+    private void setRookNewCoordinates(int moveToY)
+    {
+        if (moveToY == getStartY() + 2) {
+            MenuAndBoard.Board.board[getStartX()][getStartY() + 1] = new Rook(getColor(), getStartX(), getStartY() + 1, false);
+            MenuAndBoard.Board.board[getStartX()][getStartY() + 3] = null;
+        }
+        if (moveToY == getStartY() - 2) {
+            MenuAndBoard.Board.board[getStartX()][getStartY() - 1] = new Rook(getColor(), getStartX(), getStartY() - 1, false);
+            MenuAndBoard.Board.board[getStartX()][getStartY() - 4] = null;
+        }
+    }
     private boolean checkShortCastling() {
         if (MenuAndBoard.Board.board[getStartX()][getStartY() + 3] instanceof Rook) {
-            if (((Rook) MenuAndBoard.Board.board[getStartX()][getStartY() + 3]).isFirstMove()) {
-                MenuAndBoard.Board.board[getStartX()][getStartY() + 1] = new Rook(getColor(), getStartX(), getStartY() + 1, false);
-                MenuAndBoard.Board.board[getStartX()][getStartY() + 3] = null;
-                return true;
-            } else {
-                return false;
-            }
+            return ((Rook) MenuAndBoard.Board.board[getStartX()][getStartY() + 3]).isFirstMove();
         } else {
             return false;
         }
@@ -78,13 +85,7 @@ public class King extends Piece {
 
     private boolean checkLongCastling() {
         if (MenuAndBoard.Board.board[getStartX()][getStartY() - 4] instanceof Rook) {
-            if (((Rook) MenuAndBoard.Board.board[getStartX()][getStartY() - 4]).isFirstMove()) {
-                MenuAndBoard.Board.board[getStartX()][getStartY() - 1] = new Rook(getColor(), getStartX(), getStartY() - 1, false);
-                MenuAndBoard.Board.board[getStartX()][getStartY() - 4] = null;
-                return true;
-            } else {
-                return false;
-            }
+            return ((Rook) MenuAndBoard.Board.board[getStartX()][getStartY() - 4]).isFirstMove();
         } else {
             return false;
         }

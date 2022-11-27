@@ -19,19 +19,21 @@ public class Menu {
         Scanner scan = new Scanner(System.in);
         System.out.println("The options are -> easy and difficult");
         System.out.print("Enter 1 for easy game or 2 for difficult game --> ");
-        try {
+//        try {
             int choice = scan.nextInt();
             if (choice == 1) {
                 inGame(true);
             } else if (choice == 2) {
                 inGame(false);
-            } else {
-                throw new Exception("Invalid difficulty type!");
             }
-        } catch (Exception e) {
-            System.out.println("Invalid difficulty type!");
-            chooseDifficulty();
-        }
+//            else {
+//                throw new Exception("Invalid difficulty type!");
+//            }
+//        }
+//        catch (Exception diff) {
+//            System.out.println("Invalid difficulty type!");
+//            chooseDifficulty();
+//        }
     }
 
     public static void enterPlayersChoice(ArrayList<PossibleMove> whiteMoves) {
@@ -80,27 +82,23 @@ public class Menu {
                     enterPlayersChoice(whiteMoves);
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception cords) {
             System.out.println("Invalid start coordinates! Enter again! ");
             enterPlayersChoice(whiteMoves);
         }
     }
 
-    public static void check(ArrayList<Piece> pieces) {
+    public static void endTheGameIfThereNoPossibleMoves(ArrayList<Piece> pieces) {
         for (Piece piece : pieces) {
             if (piece instanceof King) {
-                if (Checkmate.checkIfKingInCheck(piece.getStartX(), piece.getStartY())) {
+                if (Checkmate.checkIfKingInCheck(piece.getStartX(), piece.getStartY(),false)) {
                     if (piece.getColor().equalsIgnoreCase("white")) {
                         System.out.println("CHECKMATE! BOT WINS!");
                     } else {
                         System.out.println("CHECKMATE! PLAYER WINS!");
                     }
                 } else {
-                    if (piece.getColor().equalsIgnoreCase("white")) {
-                        System.out.println("STALEMATE!");
-                    } else {
-                        System.out.println("STALEMATE!");
-                    }
+                    System.out.println("STALEMATE!");
                 }
                 break;
             }
@@ -120,14 +118,14 @@ public class Menu {
                 whiteMoves = nonCheckBlackMoves;
                 enterPlayersChoice(whiteMoves);
             } else {
-                check(Board.whitePieces);
+                endTheGameIfThereNoPossibleMoves(Board.whitePieces);
                 break;
             }
             board.printBoard();
             Board.sortPieces();
             PossibleMove botMove = BotLogic.makeMove(isRandom);
             if (botMove == null) {
-                check(Board.blackPieces);
+                endTheGameIfThereNoPossibleMoves(Board.blackPieces);
                 break;
             }
             Board.board[botMove.getStartX()][botMove.getStartY()].move(botMove.getMoveToX(), botMove.getMoveToY());

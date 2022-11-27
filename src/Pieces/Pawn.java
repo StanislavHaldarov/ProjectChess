@@ -53,6 +53,32 @@ public class Pawn extends Piece {
         }
         return false;
     }
+    public Piece askUserToChange() {
+        int timesError = 0;
+        String[] possiblePieces = {"R", "K", "B", "Q"};
+        List<String> possiblePieceList = new ArrayList<>(Arrays.asList(possiblePieces));
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Enter a piece to change into (R-K-B-Q): ");
+        String pieceChoice = " ";
+        while (true) {
+            if (timesError >= 3) {
+                System.out.println("Too many invalid inputs! Pieces.Queen chosen/default option/!");
+                break;
+            }
+            pieceChoice = scan.next();
+            if (possiblePieceList.contains(pieceChoice)) {
+                break;
+            }
+            timesError++;
+            System.out.print("Invalid input! Please enter again (R-K-B-Q): ");
+        }
+        return switch (pieceChoice) {
+            case "R" -> new Rook(this.getColor(), getStartX(), getStartY(), false);
+            case "K" -> new Knight(this.getColor(), getStartX(), getStartY());
+            case "B" -> new Bishop(this.getColor(), getStartX(), getStartY());
+            default -> new Queen(this.getColor(), getStartX(), getStartY());
+        };
+    }
     @Override
     public void move(int moveToX, int moveToY) {
         moveWithRunnable(moveToX, moveToY, () -> {
@@ -196,32 +222,7 @@ public class Pawn extends Piece {
     }
 
 
-    private Piece askUserToChange() {
-        int timesError = 0;
-        String[] possiblePieces = {"R", "K", "B", "Q"};
-        List<String> possiblePieceList = new ArrayList<>(Arrays.asList(possiblePieces));
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Enter a piece to change into (R-K-B-Q): ");
-        String pieceChoice = " ";
-        while (true) {
-            if (timesError >= 3) {
-                System.out.println("Too many invalid inputs! Pieces.Queen chosen/default option/!");
-                break;
-            }
-            pieceChoice = scan.next();
-            if (possiblePieceList.contains(pieceChoice)) {
-                break;
-            }
-            timesError++;
-            System.out.print("Invalid input! Please enter again (R-K-B-Q): ");
-        }
-        return switch (pieceChoice) {
-            case "R" -> new Rook(this.getColor(), getStartX(), getStartY(), false);
-            case "K" -> new Knight(this.getColor(), getStartX(), getStartY());
-            case "B" -> new Bishop(this.getColor(), getStartX(), getStartY());
-            default -> new Queen(this.getColor(), getStartX(), getStartY());
-        };
-    }
+
 
     private void moveWithRunnable(int moveToX, int moveToY, Runnable callback) {
         if (isValidMove(moveToX, moveToY)) {
