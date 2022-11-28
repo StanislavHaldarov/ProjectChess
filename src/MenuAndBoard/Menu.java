@@ -107,7 +107,7 @@ public class Menu {
 
     public static void inGame(boolean isRandom) {
         Board board = new Board();
-        board.initializeStartingBoard();
+        Board.initializeStartingBoard();
         board.printBoard();
         while (true) {
             ArrayList<PossibleMove> whiteMoves = new ArrayList<>();

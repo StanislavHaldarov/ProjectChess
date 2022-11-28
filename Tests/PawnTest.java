@@ -25,25 +25,18 @@ public class PawnTest {
 
     @Test
     public void testIsValidMoveOneStepForwardWhenTheMoveIsValid(){
+        Board.board[6][4] = new Pawn("white",6,4,false,1);
+        Board.board[3][4] = new Pawn("black", 3, 4, true, 0);
         assertTrue(Board.board[6][1].isValidMove(5,1));
+        assertTrue(Board.board[6][4].isValidMove(5,4));
         assertTrue(Board.board[3][1].isValidMove(4,1));
+        assertTrue(Board.board[3][4].isValidMove(4,4));
     }
     @Test
     public void testIsValidMoveTwoStepForwardWhenTheMoveIsValid(){
         assertTrue(Board.board[6][1].isValidMove(4,1));
         Board.board[3][3] = new Pawn("black", 3, 3, true, 0);
         assertTrue(Board.board[3][3].isValidMove(5,3));
-    }
-    @Test
-    public void testIsValidMoveDiagonalMoveWhenTheMoveIsValid(){
-        Board.board[4][0] = new Pawn("white",4,0,false,1);
-        Board.board[4][2] = new Pawn("white",4,2,false,1);
-        Board.board[5][0] = new Pawn("black",5,0,false,1);
-        Board.board[5][2] = new Pawn("black",5,2,false,1);
-        assertTrue(Board.board[6][1].isValidMove(5,0));
-        assertTrue(Board.board[3][1].isValidMove(4,0));
-        assertTrue(Board.board[6][1].isValidMove(5,2));
-        assertTrue(Board.board[3][1].isValidMove(4,2));
     }
     @Test
     public void testIsValidMoveEnPassantWhenTheMoveIsValid(){
@@ -54,6 +47,26 @@ public class PawnTest {
         Board.board[3][2].move(2,1);
         assertNull(Board.board[3][1]);
     }
+    @Test
+    public void testPawnDiagonalMovement(){
+        Board.board[4][0] = new Pawn("white",4,0,false,1);
+        Board.board[4][2] = new Pawn("white",4,2,false,1);
+        Board.board[5][0] = new Pawn("black",5,0,false,1);
+        Board.board[5][2] = new Pawn("black",5,2,false,1);
+        assertTrue(Board.board[6][1].isValidMove(5,0));
+        assertTrue(Board.board[3][1].isValidMove(4,0));
+        assertTrue(Board.board[6][1].isValidMove(5,2));
+        assertTrue(Board.board[3][1].isValidMove(4,2));
+        Board.board[4][0] = new Pawn("white",4,0,false,1);
+        Board.board[4][7] = new Pawn("white",4,7,false,1);
+        assertFalse(Board.board[4][0].isValidMove(3,-1));
+        assertFalse(Board.board[4][7].isValidMove(3,8));
+        Board.board[4][0] = new Pawn("black",4,0,false,1);
+        Board.board[4][7] = new Pawn("black",4,7,false,1);
+        assertFalse(Board.board[4][0].isValidMove(5,-1));
+        assertFalse(Board.board[4][7].isValidMove(5,8));
+    }
+
     @Test
     public void testWhitePawnIsValidMoveIfPathIsBlocked(){
         //when pawn's front square is blocked by a piece
