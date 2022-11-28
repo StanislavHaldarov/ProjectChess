@@ -33,7 +33,7 @@ public class Board {
         System.out.println();
     }
 
-    public void initializeStartingBoard() {
+    public static void initializeStartingBoard() {
         board[0][1] = new Knight("black", 0, 1);
         board[0][6] = new Knight("black", 0, 6);
         board[1][0] = new Pawn("black", 1, 0, true, 0);
