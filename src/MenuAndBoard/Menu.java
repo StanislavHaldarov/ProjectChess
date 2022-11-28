@@ -19,21 +19,21 @@ public class Menu {
         Scanner scan = new Scanner(System.in);
         System.out.println("The options are -> easy and difficult");
         System.out.print("Enter 1 for easy game or 2 for difficult game --> ");
-//        try {
+        try {
             int choice = scan.nextInt();
             if (choice == 1) {
                 inGame(true);
             } else if (choice == 2) {
                 inGame(false);
             }
-//            else {
-//                throw new Exception("Invalid difficulty type!");
-//            }
-//        }
-//        catch (Exception diff) {
-//            System.out.println("Invalid difficulty type!");
-//            chooseDifficulty();
-//        }
+            else {
+                throw new Exception("Invalid difficulty type!");
+            }
+        }
+        catch (Exception diff) {
+            System.out.println("Invalid difficulty type!");
+            chooseDifficulty();
+        }
     }
 
     public static void enterPlayersChoice(ArrayList<PossibleMove> whiteMoves) {
